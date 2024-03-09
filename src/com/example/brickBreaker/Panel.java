@@ -1,8 +1,6 @@
 package com.example.brickBreaker;
 
 import javax.swing.*;
-// import inputs.KeyboardInputs;
-// import inputs.MouseInputs;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -10,34 +8,24 @@ import java.awt.Graphics;
 // we are using the extend method here tp see the difference btw the calls , the previous private jquery object method can be used as well
 public class Panel extends JPanel {
     private float x = 100, y = 750;
-    // private MouseInputs mouseInputs;
+    private MouseInputs mouseInputs;
     private Color color = new Color(123, 23, 90);
 
     // defining it here so that both mouselistener and mousemotionlistener knows we
     // are talking about the same object
     public Panel() {
         // listens to the key pressed (for keyboards)
-        // addKeyListener(new KeyboardInputs(this));
+        addKeyListener(new KeyboardInputs(this));
         // using this to pass an object of gamepanel inside keyborard inputs
 
-        // to set panel size while loading the gamePanel
-        setPanelSize();
+
         // initiallsing the class
-        // mouseInputs = new MouseInputs(this);
-        // addMouseListener(mouseInputs);
-        // addMouseMotionListener(mouseInputs);
+        mouseInputs = new MouseInputs(this);
+        addMouseListener(mouseInputs);
+        addMouseMotionListener(mouseInputs);
     }
 
-    // if we set the size in jframe then the size is including the border and not
-    // just the panel size
-    private void setPanelSize() {
-        Dimension size = new Dimension(1280, 800); // image is 32x32 therefore 1280x800 means 1280/32x800/32 =40x25
-                                                   // images in size
-        setMinimumSize(size);
-        setPreferredSize(size);
-        setMaximumSize(size);
-    }
-
+   
     // defining the increase decrease methods for movement , now we just need to
     // call the methods from the keyboard inputs
     public void changeX(int value) {
@@ -62,5 +50,9 @@ public class Panel extends JPanel {
         g.fillRect((int) x, (int) y, 100, 20);
 
     }
+
+
+   
+    
 
 }
