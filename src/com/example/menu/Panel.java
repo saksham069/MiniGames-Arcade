@@ -2,6 +2,7 @@ package com.example.menu;
 
 import javax.swing.JPanel;
 
+import com.example.brickBreaker.BrickBreaker;
 import com.example.doodleJump.DoodleJump;
 
 import java.awt.Color;
@@ -31,10 +32,10 @@ class Panel extends JPanel {
         //         2 -
         //         100,
         //         new Game2()));
-        // games.add(new GameItem(3 * (int) screenWidth / 4 - 100, (int) screenHeight /
-        //         2 -
-        //         100,
-        //         new Game3()));
+        games.add(new GameItem(3 * (int) screenWidth / 4 - 100, (int) screenHeight /
+                2 -
+                100,
+                new BrickBreaker()));
 
         // replace Game2/3 with GameClass and "shift + alt + f"
 
