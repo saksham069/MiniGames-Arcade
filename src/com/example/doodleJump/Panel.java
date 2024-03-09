@@ -67,10 +67,12 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
                     bY = player.collider.getY() + player.collider.getHeight();
                     ySpeed = jumpSpeed;
                 }
-                if (player.collider.getX() <= screenWidth / 2 - 200) {
+                if (player.collider.getX() <= screenWidth / 2 - 200 && !moveR) {
                     pX = screenWidth / 2 - 200;
-                } else if (player.collider.getX() >= screenWidth / 2 + 200 - pWidth) {
+                    moveL = false;
+                } else if (player.collider.getX() >= screenWidth / 2 + 200 - pWidth && !moveL) {
                     pX = screenWidth / 2 + 200 - pWidth;
+                    moveR = false;
                 }
                 try {
                     Thread.sleep(1);

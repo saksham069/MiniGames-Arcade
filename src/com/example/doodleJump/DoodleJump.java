@@ -13,7 +13,7 @@ public class DoodleJump implements Game {
     }
 
     @Override
-    public void play() {
+    public void play() { // cant turn into abstract because of Panel
         panel = new Panel(); // check if restarting makes new panel or not
         Main.window.setPanel(panel);
         panel.requestFocus();
