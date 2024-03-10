@@ -1,57 +1,95 @@
 package com.example.brickBreaker;
 
 import javax.swing.*;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.awt.Graphics2D;
 
-// we are using the extend method here tp see the difference btw the calls , the previous private jquery object method can be used as well
+
 public class Panel extends JPanel {
-    private float x = 100, y = 750;
+    private boolean running;
+
+
+    //entities 
+    Ball ball;
+    Paddle paddle;
+
+    //inputs
     private MouseInputs mouseInputs;
-    private Color color = new Color(123, 23, 90);
 
-    // defining it here so that both mouselistener and mousemotionlistener knows we
-    // are talking about the same object
+    //constructor
     public Panel() {
-        // listens to the key pressed (for keyboards)
-        addKeyListener(new KeyboardInputs(this));
-        // using this to pass an object of gamepanel inside keyborard inputs
-
-
-        // initiallsing the class
-        mouseInputs = new MouseInputs(this);
-        addMouseListener(mouseInputs);
+        
+        // initiallsing the mouse inputs
+        mouseInputs = new MouseInputs();
         addMouseMotionListener(mouseInputs);
+
+        //initialising the loop and the entities
+        running =true;
+        ball = new Ball();
+        paddle = new Paddle();
+
+        //different thread for the game loop 
+        //This loop runs continuously, and since it's executed on the Swing event dispatch thread (EDT), it blocks the EDT, preventing Swing from handling user input or updating the UI.
+
+        // To fix this freezing issue, you should avoid running long-running tasks on the EDT. Instead, you can use a separate thread to run the game loop. 
+        Thread gameThread = new Thread(this::run);
+        gameThread.start();
+
+        //IMPLEEMNT KEYBOARD LATER ON 
+        // // listens to the key pressed (for keyboards)
+        // addKeyListener(new KeyboardInputs(this));
+        // // using this to pass an object of gamepanel inside keyborard inputs
+    }
+
+    public void run(){
+
+        while (running){
+            //update 
+            update();
+
+            //render or draw
+            // draw();
+
+            //display
+            repaint();
+            try{
+                //too fast 
+                Thread.sleep(10);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void update(){
+        ball.update();
     }
 
    
-    // defining the increase decrease methods for movement , now we just need to
-    // call the methods from the keyboard inputs
-    public void changeX(int value) {
-        this.x += value;
-    }
-
-    // to set position using the mouse
-    public void setRectPos(int x) {
-        this.x = x;
-
-    }
-
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         // super is used to access the superclass methods
         // basically says ki hey do all the things that you need to do in that class and
         // then i am gonna start painting myself
-
-        // to change color
-        g.setColor(color);
-        // used to draw
-        g.fillRect((int) x, (int) y, 100, 20);
-
+        Graphics2D g2d = (Graphics2D) g;
+       
+        ball.draw(g2d);
+        paddle.draw(g2d);
     }
 
 
+    //mouse inputs 
+    private class MouseInputs implements MouseMotionListener{
+
+        @Override
+        public void mouseDragged(MouseEvent e) {}
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            paddle.setPaddlePos(e.getX());
+        }}
    
     
 
