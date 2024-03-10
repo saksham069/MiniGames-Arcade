@@ -3,6 +3,7 @@ package com.example.menu;
 import javax.swing.JPanel;
 
 import com.example.doodleJump.DoodleJump;
+import com.example.flappyBird.FlappyBird;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,16 +28,16 @@ class Panel extends JPanel {
         games = new ArrayList<GameItem>();
         games.add(new GameItem((int) screenWidth / 4 - 100, (int) screenHeight / 2 - 100,
                 new DoodleJump()));
-        // games.add(new GameItem(2 * (int) screenWidth / 4 - 100, (int) screenHeight /
-        //         2 -
-        //         100,
-        //         new Game2()));
+        games.add(new GameItem(2 * (int) screenWidth / 4 - 100, (int) screenHeight /
+                2 -
+                100,
+                new FlappyBird()));
         // games.add(new GameItem(3 * (int) screenWidth / 4 - 100, (int) screenHeight /
         //         2 -
         //         100,
         //         new Game3()));
 
-        // replace Game2/3 with GameClass and "shift + alt + f"
+        // replace Game3 with GameClass and "shift + alt + f"
 
         this.setBackground(Color.BLACK);
         this.setForeground(Color.GRAY);
