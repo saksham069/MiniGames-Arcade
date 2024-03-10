@@ -2,6 +2,7 @@ package com.example.menu;
 
 import javax.swing.JPanel;
 
+import com.example.brickBreaker.BrickBreaker;
 import com.example.doodleJump.DoodleJump;
 import com.example.flappyBird.FlappyBird;
 
@@ -32,12 +33,10 @@ class Panel extends JPanel {
                 2 -
                 100,
                 new FlappyBird()));
-        // games.add(new GameItem(3 * (int) screenWidth / 4 - 100, (int) screenHeight /
-        //         2 -
-        //         100,
-        //         new Game3()));
-
-        // replace Game3 with GameClass and "shift + alt + f"
+        games.add(new GameItem(3 * (int) screenWidth / 4 - 100, (int) screenHeight /
+                2 -
+                100,
+                new BrickBreaker()));
 
         this.setBackground(Color.BLACK);
         this.setForeground(Color.GRAY);
