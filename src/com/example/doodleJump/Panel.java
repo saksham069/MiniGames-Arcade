@@ -22,7 +22,7 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
     private final double screenHeight, screenWidth;
     private Player player;
     private Deque<Block> blocks; // deque for blocks
-    private Block block;
+    // private Block block;
     private int nBlock; // number of total blocks spawned
     private final Random random;
     private final double xSpeed = 10;
@@ -54,23 +54,30 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
         random = new Random();
         bY = screenHeight / 2 + 100;
         blocks = new ArrayDeque<>();
-        block = new Block(screenWidth / 2 - 100 / 2, bY);
-        blocks.add(new Block(random.nextInt(2 * 200 + 1 - (int) block.collider.getWidth()) + screenWidth / 2 - 200,
-                bY - 100));
+        blocks.add(new Block(screenWidth / 2 - 100 / 2, bY));
+        blocks.add(new Block(random.nextInt(2 * 200 + 1 - 100/* block width */) + screenWidth / 2 - 200, bY - 200));
+        blocks.add(new Block(random.nextInt(2 * 200 + 1 - 100/* block width */) + screenWidth / 2 - 200, bY - 400));
+        blocks.add(new Block(random.nextInt(2 * 200 + 1 - 100/* block width */) + screenWidth / 2 - 200, bY - 600));
+        blocks.add(new Block(random.nextInt(2 * 200 + 1 - 100/* block width */) + screenWidth / 2 - 200, bY - 800));
         this.setBackground(Color.BLACK);
 
         checkCollisionsThread = new Thread(() -> {
             while (true) {
-
-                if (block.collider.intersects(player.collider)) {
-                    // pY = block.collider.getY() - player.collider.getHeight();
-                    bY = player.collider.getY() + player.collider.getHeight();
-                    ySpeed = jumpSpeed;
-                }
-                if (player.collider.getX() <= screenWidth / 2 - 200) {
+                blocks.forEach((b) -> {
+                    if (b.collider.intersects(player.collider)) {
+                        double shift = player.collider.getY() + player.collider.getHeight() - b.collider.getY();
+                        blocks.forEach((bb) -> {
+                            bb.setY = bb.collider.getY() + shift;
+                        });
+                        ySpeed = jumpSpeed;
+                    }
+                });
+                if (player.collider.getX() <= screenWidth / 2 - 200 && !moveR) {
                     pX = screenWidth / 2 - 200;
-                } else if (player.collider.getX() >= screenWidth / 2 + 200 - pWidth) {
+                    moveL = false;
+                } else if (player.collider.getX() >= screenWidth / 2 + 200 - pWidth && !moveL) {
                     pX = screenWidth / 2 + 200 - pWidth;
+                    moveR = false;
                 }
                 try {
                     Thread.sleep(1);
@@ -82,10 +89,12 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
 
         gameThread = new Thread(() -> {
             while (true) {
-                if ((int) bY - (int) (screenHeight / 2 + 200) > score)
-                    score = (int) bY - (int) (screenHeight / 2 + 200);
                 ySpeed += gravity;
-                bY -= ySpeed; // +=
+                blocks.forEach((b) -> {
+                    b.setY -= ySpeed;
+                });
+                if ((int) bY - (int) (screenHeight / 2 + 200) > score)
+                    score = (int) bY - (int) (screenHeight / 2 + 200); // score ka dekhta hu abhi
                 if (moveR)
                     pX += xSpeed;
                 if (moveL)
@@ -154,15 +163,18 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
         super.paintComponent(g);
 
         player.collider.setFrame(pX, pY, pWidth, pHeight);
-        block.collider.setFrame(block.collider.getX(), bY, block.collider.getWidth(),
-                block.collider.getHeight());
-
+        blocks.forEach((b) -> {
+            b.collider.setFrame(b.collider.getX(), b.setY, b.collider.getWidth(), b.collider.getHeight());
+        }); // yaha place kiya hai to move at a constant predefined rate
+        
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.YELLOW);
         g2d.fill(player.collider);
         g2d.setColor(Color.RED);
-        g2d.fill(block.collider);
-        g2d.fill(blocks.getLast().collider);
+        blocks.forEach((b) -> {
+            g2d.fill(b.collider);
+        });
+        
         g2d.setColor(Color.GRAY);
         g2d.fillRect(0, 0, (int) screenWidth / 2 - 200, (int) screenHeight);
         g2d.fillRect((int) screenWidth / 2 + 200, 0, (int) screenWidth / 2 - 200, (int) screenHeight);
