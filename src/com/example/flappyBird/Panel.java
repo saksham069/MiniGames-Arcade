@@ -11,8 +11,8 @@ import java.awt.event.KeyListener;
 class Panel extends JPanel {
 
     private boolean jumping = false;
-    private int birdX = 50;
-    private int birdY = 300;
+    private int birdX = 100;
+    private int birdY = 400;
     private int velocityY = 0;
 
     // Images : these 4 variables will store our image objects
@@ -59,13 +59,13 @@ class Panel extends JPanel {
                 }
 
                 // if jumping and not at max height, move upwards
-                if (jumping && birdY >= 300) {
-                    velocityY = 20; // bird fly above
+                if (jumping && birdY >= 400) {
+                    velocityY = 30; // bird fly above
                 }
                 birdY -= velocityY;
                 velocityY -= 1;           // gravity, dheere dheere neeche
-                if (birdY >= 300) {       // max height attain?
-                    birdY = 300;          // dont go above this much
+                if (birdY >= 400) {       // max height attain?
+                    birdY = 400;          // dont go above this much
                     velocityY = 0;        // stop moving upward
                     jumping = false;      // end jumping
                 }
@@ -91,8 +91,8 @@ class Panel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.BLUE);
-        g.fillOval(birdX, birdY, 50, 50);
-        g.drawImage(backgroundImg, 600, 50, 390, 850, null);
+        g.fillOval(birdX, birdY, 80, 80);
+        g.drawImage(backgroundImg, 600, 1, 390, 850, null);
 
     }
 }
