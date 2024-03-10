@@ -14,6 +14,7 @@ public class Panel extends JPanel {
     //entities 
     Ball ball;
     Paddle paddle;
+    Map map;
 
     //inputs
     private MouseInputs mouseInputs;
@@ -29,6 +30,7 @@ public class Panel extends JPanel {
         running =true;
         ball = new Ball();
         paddle = new Paddle();
+        map=new Map(5,10);
 
         //different thread for the game loop 
         //This loop runs continuously, and since it's executed on the Swing event dispatch thread (EDT), it blocks the EDT, preventing Swing from handling user input or updating the UI.
@@ -53,10 +55,9 @@ public class Panel extends JPanel {
             // draw();
 
             //display
-            repaint();
             try{
                 //too fast 
-                Thread.sleep(10);
+                Thread.sleep(4);
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -77,6 +78,7 @@ public class Panel extends JPanel {
        
         ball.draw(g2d);
         paddle.draw(g2d);
+        map.draw(g2d);
     }
 
 

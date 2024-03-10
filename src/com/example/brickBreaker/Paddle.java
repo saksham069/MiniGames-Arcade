@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 
+
 public class Paddle {
     private double x,y;
     private int paddleHeight=20, paddleWidth=100;
