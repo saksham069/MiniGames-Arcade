@@ -6,7 +6,7 @@ import com.example.main.Game;
 
 class GameItem {
     private Rectangle gameRect;
-    private Game game;
+    Game game;
     private final int width, height;
 
     GameItem(int x, int y, Game g) {
@@ -17,10 +17,6 @@ class GameItem {
     }
 
     Rectangle getRect() {
-        return this.gameRect;
-    }
-
-    void start(){
-        game.play(); 
+        return this.gameRect; // maybe dont use getter?
     }
 }

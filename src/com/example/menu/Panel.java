@@ -48,7 +48,7 @@ class Panel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 games.forEach((g) -> {
                     if (g.getRect().contains(e.getPoint())) {
-                        g.start();
+                        g.game.play();
                     }
                 });
             }
