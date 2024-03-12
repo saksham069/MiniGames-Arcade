@@ -78,10 +78,10 @@ class Panel extends JPanel {
         setBackground(Color.gray);
 
         // load images(ye sab baad ka kaam)
-        backgroundImg = new ImageIcon(getClass().getResource("/com/example/flappyBird/flappybirdbg.png")).getImage();
-        birdImg = new ImageIcon(getClass().getResource("/com/example/flappyBird/flappybird.png")).getImage();
-        topPipeImg = new ImageIcon(getClass().getResource("/com/example/flappyBird/toppipe.png")).getImage();
-        bottomPipeImg = new ImageIcon(getClass().getResource("/com/example/flappyBird/bottompipe.png")).getImage();
+        backgroundImg = new ImageIcon(getClass().getResource("flappybirdbg.png")).getImage();
+        birdImg = new ImageIcon(getClass().getResource("flappybird.png")).getImage();
+        topPipeImg = new ImageIcon(getClass().getResource("toppipe.png")).getImage();
+        bottomPipeImg = new ImageIcon(getClass().getResource("bottompipe.png")).getImage();
     }
 
     public void jump() {
