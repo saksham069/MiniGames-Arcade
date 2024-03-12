@@ -8,8 +8,6 @@ public class Main {
     public static final Window window = new Window(new JPanel());
 
     public static void main(String[] args) {
-        // new DoodleJump();
-        // window = new Window(new JPanel());
         new Menu();
     }
 }
