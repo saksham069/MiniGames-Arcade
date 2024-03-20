@@ -7,5 +7,6 @@ public class FlappyBird extends Game {
         super.panel = new Panel(); // check if restarting makes new panel or not
         super.renderThread = new Thread(this);
         super.play();
+        // panel.requestFocus();
     }
 }
