@@ -3,10 +3,12 @@ package com.example.brickBreaker;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 
 
 public class Paddle {
+
     private double x,y;
     private int paddleHeight=20, paddleWidth=100;
     private final Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
@@ -29,5 +31,9 @@ public class Paddle {
         //to update according to mouse inputs 
         this.x = value;
 
+    }
+
+    public Rectangle getRect(){
+        return new Rectangle((int)x,(int)y,paddleWidth,paddleHeight);
     }
 }

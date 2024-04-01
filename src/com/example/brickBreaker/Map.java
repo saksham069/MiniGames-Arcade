@@ -32,13 +32,28 @@ public class Map {
         
         for(int i=0;i<map.length;i++){
             for(int j=0;j< map[0].length;j++){
-                g.setColor(Color.RED);
+                if(map[i][j]>0){
+                    g.setColor(Color.RED);
                 g.fillRect((int)(j*brickWidth+paddingX), (int)(i*brickHeight+paddingY),(int)brickWidth,(int)brickHeight);
                 g.setStroke(new BasicStroke(2));
                 g.setColor(Color.white);
                 g.drawRect((int)(j*brickWidth+paddingX), (int)(i*brickHeight+paddingY),(int)brickWidth,(int)brickHeight);
+                }
+                
             }
         }
     }
 
+    public int[][] getMapArray(){return map;}
+    public void setBrick(int row, int col, int value){
+        map[row][col]=value;
+    }
+    
+    public double getBrickWidth(){
+        return brickWidth;
+    }
+
+    public double getBrickHeight(){
+        return brickHeight;
+    }
 }

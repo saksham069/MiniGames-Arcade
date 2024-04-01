@@ -4,10 +4,12 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 
 
 public class Ball {
+
     private double x,y,dx,dy;
     private int ballSize=30;
     private final Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
@@ -59,5 +61,17 @@ public class Ball {
         if(y>screenSize.getHeight() -ballSize){
             dy=-dy;
         }
+    }
+
+    public Rectangle getRect(){
+        return new Rectangle((int)x,(int)y,ballSize,ballSize);
+    }
+
+    public void setDy(double changedDY){
+        dy=changedDY;
+    }  // method can be made better , check if it can be done using just properties 
+
+    public double getDy(){
+        return dy;
     }
 }
