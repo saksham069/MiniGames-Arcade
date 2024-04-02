@@ -10,7 +10,7 @@ import java.awt.Toolkit;
 public class Paddle {
 
     private double x,y;
-    private int paddleHeight=20, paddleWidth=100;
+    private int paddleHeight=25, paddleWidth=130;
     private final Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
 
     Paddle(){
@@ -22,7 +22,7 @@ public class Paddle {
 
     public void draw(Graphics2D g){
          // to change color
-         g.setColor(Color.BLUE);
+         g.setColor(Color.black);
          // used to draw
          g.fillRect((int)x, (int)y, paddleWidth, paddleHeight);
     }
@@ -31,9 +31,23 @@ public class Paddle {
         //to update according to mouse inputs 
         this.x = value;
 
+        //it will stop paddle from going off the screen
+        if(x>screenSize.getWidth()-paddleWidth){
+            x=screenSize.getWidth()-paddleWidth;
+        }
+
+    }
+
+    public int getWidth(){
+        return paddleWidth;
     }
 
     public Rectangle getRect(){
         return new Rectangle((int)x,(int)y,paddleWidth,paddleHeight);
     }
+
+    public int gety(){
+        return (int)y;
+    }
+
 }

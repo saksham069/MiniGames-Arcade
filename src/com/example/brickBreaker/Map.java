@@ -19,11 +19,12 @@ public class Map {
 
         for(int i=0;i<map.length;i++){
             for(int j=0;j< map[0].length;j++){
-                map[i][j]=1;
+                int r=(int)(Math.random()*5+1);
+                map[i][j]=r;
             }
         }
 
-        brickHeight=(screenSize.getHeight()/2 - paddingY)/row;
+        brickHeight=(screenSize.getHeight()/2 - paddingY*1.5)/row;
         brickWidth=(screenSize.getWidth()-2*paddingX)/col;
 
     }
@@ -33,11 +34,30 @@ public class Map {
         for(int i=0;i<map.length;i++){
             for(int j=0;j< map[0].length;j++){
                 if(map[i][j]>0){
-                    g.setColor(Color.RED);
-                g.fillRect((int)(j*brickWidth+paddingX), (int)(i*brickHeight+paddingY),(int)brickWidth,(int)brickHeight);
-                g.setStroke(new BasicStroke(2));
-                g.setColor(Color.white);
-                g.drawRect((int)(j*brickWidth+paddingX), (int)(i*brickHeight+paddingY),(int)brickWidth,(int)brickHeight);
+
+                    if(map[i][j]==1){
+                        g.setColor(Color.BLACK);
+                    }
+
+                    if(map[i][j]==2){
+                        g.setColor(Color.RED);
+                    }
+
+                    if(map[i][j]==3){
+                        g.setColor(Color.YELLOW);
+                    }
+
+                    if(map[i][j]==4){
+                        g.setColor(Color.PINK);
+                    }
+
+                    if(map[i][j]==5){
+                        g.setColor(Color.GREEN);
+                    }
+                    g.fillRect((int)(j*brickWidth+paddingX), (int)(i*brickHeight+paddingY),(int)brickWidth,(int)brickHeight);
+                    g.setStroke(new BasicStroke(2));
+                    g.setColor(Color.white);
+                    g.drawRect((int)(j*brickWidth+paddingX), (int)(i*brickHeight+paddingY),(int)brickWidth,(int)brickHeight);
                 }
                 
             }
@@ -45,8 +65,9 @@ public class Map {
     }
 
     public int[][] getMapArray(){return map;}
-    public void setBrick(int row, int col, int value){
-        map[row][col]=value;
+
+    public void hitBrick(int row, int col){
+        map[row][col]=0;
     }
     
     public double getBrickWidth(){
@@ -55,5 +76,23 @@ public class Map {
 
     public double getBrickHeight(){
         return brickHeight;
+    }
+
+    public boolean isWin(){
+        boolean isWin=false;
+        int bricksRemaining=0;
+
+        for(int i=0;i<map.length;i++){
+            for(int j=0;j< map[0].length;j++){
+                bricksRemaining+=map[i][j];
+            }
+        }
+
+        if(bricksRemaining==0){
+            isWin=true;
+        }
+
+        
+        return isWin;
     }
 }

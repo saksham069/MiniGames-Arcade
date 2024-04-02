@@ -1,6 +1,9 @@
 package com.example.brickBreaker;
 
 import javax.swing.*;
+
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -14,6 +17,7 @@ public class Panel extends JPanel {
     Ball ball;
     Paddle paddle;
     Map map;
+    Score score;
 
     // fields
     Rectangle ballRect;
@@ -21,6 +25,7 @@ public class Panel extends JPanel {
 
     // inputs
     private MouseInputs mouseInputs;
+    private int mouseX;
 
     // constructor
     public Panel() {
@@ -31,9 +36,12 @@ public class Panel extends JPanel {
 
         // initialising the loop and the entities
         running = true;
+        mouseX=0;
+
         ball = new Ball();
         paddle = new Paddle();
-        map = new Map(5, 10);
+        map = new Map(9, 13);
+        score= new Score();
 
         // different thread for the game loop
         // This loop runs continuously, and since it's executed on the Swing event
@@ -44,7 +52,7 @@ public class Panel extends JPanel {
         // the EDT. Instead, you can use a separate thread to run the game loop.
         Thread gameThread = new Thread(this::run);
         gameThread.start();
-
+        
         // IMPLEEMNT KEYBOARD LATER ON
         // // listens to the key pressed (for keyboards)
         // addKeyListener(new KeyboardInputs(this));
@@ -63,7 +71,7 @@ public class Panel extends JPanel {
             // display
             try {
                 // too fast
-                Thread.sleep(4);
+                Thread.sleep(6);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -82,9 +90,25 @@ public class Panel extends JPanel {
         // then i am gonna start painting myself
         Graphics2D g2d = (Graphics2D) g;
 
+        map.draw(g2d);
         ball.draw(g2d);
         paddle.draw(g2d);
-        map.draw(g2d);
+        score.draw(g2d);
+
+        if(map.isWin()==true){
+            g.setFont(new Font("Courier New",Font.BOLD,50));
+            g.setColor(Color.RED);
+            g.drawString("YAY YOU WIN!!" ,500,400);
+            ball.stopBall();
+        }
+
+        if(isLose()==true){
+            g.setFont(new Font("Courier New",Font.BOLD,50));
+            g.setColor(Color.RED);
+            g.drawString("OOPS YOU LOSE!!" ,500,400);
+            ball.stopBall();
+        }
+        
     }
 
     public void collisionChecker() {
@@ -93,6 +117,14 @@ public class Panel extends JPanel {
 
         if (ballRect.intersects(paddleRect)) {
             ball.setDy(-ball.getDy());
+
+            //work on the x change logic 
+
+            // if(ball.getx()< mouseX + paddle.getWidth()/4)
+            //     ball.setDx(ball.getDx()-0.5);
+
+            // if(ball.getx()< mouseX + paddle.getWidth() && ball.getx()> mouseX + paddle.getWidth()/4 )
+            //     ball.setDx(ball.getDx()+0.5);
         }
 
         A: for (int row = 0; row < map.getMapArray().length; row++) {
@@ -108,8 +140,10 @@ public class Panel extends JPanel {
                     Rectangle brickRect = new Rectangle(brickx, bricky, brickWidth, brickHeight);
 
                     if (ballRect.intersects(brickRect)) {
-                        map.setBrick(row, col, 0);
+                        map.hitBrick(row, col);
                         ball.setDy(-ball.getDy());
+
+                        score.addScore(20);
 
                         break A;
                     }
@@ -117,6 +151,15 @@ public class Panel extends JPanel {
 
             }
         }
+    }
+
+    public boolean isLose(){
+        boolean isLose=false;
+
+        if(ball.gety()-15> paddle.gety()){
+            isLose=true;
+        }
+        return isLose;
     }
 
     // mouse inputs
@@ -128,6 +171,7 @@ public class Panel extends JPanel {
 
         @Override
         public void mouseMoved(MouseEvent e) {
+            mouseX=e.getX();
             paddle.setPaddlePos(e.getX());
         }
     }
