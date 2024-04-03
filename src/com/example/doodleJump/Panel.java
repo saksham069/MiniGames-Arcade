@@ -1,10 +1,15 @@
 package com.example.doodleJump;
 
+import com.example.pauseMenu.MenuOverlay;
+import com.example.pauseMenu.FuncInt;
+
 import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import java.util.Deque;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Random;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -37,8 +42,27 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
     private int score;
     private Thread gameThread;
     private Thread checkCollisionsThread;
+    private boolean paused;
+    private final JFrame parentFrame;
+    private final MenuOverlay overlay;
+    private final ArrayList<FuncInt> tasks;
 
     Panel() {
+        paused = false;
+
+        parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        tasks = new ArrayList<FuncInt>();
+        tasks.add(() -> {
+            System.out.println("1");
+        });
+        tasks.add(() -> {
+            System.out.println("2");
+        });
+        tasks.add(() -> {
+            System.out.println("3");
+        });
+        overlay = new MenuOverlay(parentFrame, tasks);
+
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenHeight = screenSize.getHeight();
         screenWidth = screenSize.getWidth();
@@ -62,7 +86,7 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
         this.setBackground(Color.BLACK);
 
         checkCollisionsThread = new Thread(() -> {
-            while (true) {
+            while (!paused) {
                 blocks.forEach((b) -> {
                     if (b.collider.intersects(player.collider) && ySpeed >= 0) {
                         double shift = player.collider.getY() + player.collider.getHeight() - b.collider.getY();
@@ -88,7 +112,7 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
         });
 
         gameThread = new Thread(() -> {
-            while (true) {
+            while (!paused) {
                 ySpeed += gravity;
                 blocks.forEach((b) -> {
                     b.setY -= ySpeed;
@@ -131,6 +155,9 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
             @Override
             public void keyReleased(KeyEvent e) {
                 switch (e.getKeyCode()) {
+                    case KeyEvent.VK_ESCAPE:
+                        paused = true;
+                        overlay.setVisible(true);
                     case KeyEvent.VK_RIGHT:
                         moveR = false;
                         break;
