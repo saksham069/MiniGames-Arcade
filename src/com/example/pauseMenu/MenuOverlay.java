@@ -1,6 +1,10 @@
 package com.example.pauseMenu;
 
 import javax.swing.JWindow;
+
+import com.example.main.Game;
+import com.example.menu.Menu;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Color;
@@ -16,16 +20,33 @@ public class MenuOverlay extends JWindow {
     final int WIDTH;
     final int HEIGHT;
     final ArrayList<Option> OPTIONS;
+    final FuncInt RESUME_GAME_TASK;
+    final FuncInt RESTART_GAME_TASK;
+    final FuncInt HOME_BUTTON_TASK;
 
-    public MenuOverlay(JFrame parent, ArrayList<FuncInt> tasks) { // add exactly 3 tasks issmei warna, would throw error
+    public MenuOverlay(JFrame parent, Game game, boolean[] flipPaused) { // add exactly 2 tasks issmei
+                                                                                     // warna, would
+        // throw error
         super(parent);
         BG_COLOR = new Color(0, 0, 0, 100);
         WIDTH = 800;
         HEIGHT = 600;
+        RESUME_GAME_TASK = () -> {
+            flipPaused[0] = !flipPaused[0];
+            this.dispose();
+        };
+        RESTART_GAME_TASK = () -> {
+            game.play();
+            this.dispose();
+        };
+        HOME_BUTTON_TASK = () -> {
+            new Menu();
+            this.dispose();
+        };
         OPTIONS = new ArrayList<Option>();
-        OPTIONS.add(new Option(WIDTH / 4 - 50, HEIGHT / 2 - 50, 100, 100, tasks.get(0)));
-        OPTIONS.add(new Option(2 * WIDTH / 4 - 50, HEIGHT / 2 - 50, 100, 100, tasks.get(1)));
-        OPTIONS.add(new Option(3 * WIDTH / 4 - 50, HEIGHT / 2 - 50, 100, 100, tasks.get(2)));
+        OPTIONS.add(new Option(WIDTH / 4 - 50, HEIGHT / 2 - 50, 100, 100, RESUME_GAME_TASK));
+        OPTIONS.add(new Option(2 * WIDTH / 4 - 50, HEIGHT / 2 - 50, 100, 100, RESTART_GAME_TASK));
+        OPTIONS.add(new Option(3 * WIDTH / 4 - 50, HEIGHT / 2 - 50, 100, 100, HOME_BUTTON_TASK));
 
         JPanel contentPane = new JPanel() {
 

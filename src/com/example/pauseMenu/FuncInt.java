@@ -1,6 +1,6 @@
 package com.example.pauseMenu;
 
 @FunctionalInterface
-public interface FuncInt{
+interface FuncInt {
     void doSomething();
 }
