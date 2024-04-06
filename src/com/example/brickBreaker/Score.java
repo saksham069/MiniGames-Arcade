@@ -11,7 +11,7 @@ public class Score {
     }
 
     public void draw(Graphics2D g){
-        g.setColor(Color.BLACK);
+        g.setColor(Color.RED);
         Font font = new Font("Arial", Font.BOLD, 36);
         g.setFont(font);
         g.drawString("Score: " + score, 40,40);

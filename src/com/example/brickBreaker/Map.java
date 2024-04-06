@@ -36,7 +36,7 @@ public class Map {
                 if(map[i][j]>0){
 
                     if(map[i][j]==1){
-                        g.setColor(Color.BLACK);
+                        g.setColor(Color.CYAN);
                     }
 
                     if(map[i][j]==2){

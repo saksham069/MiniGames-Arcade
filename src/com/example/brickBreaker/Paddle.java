@@ -16,13 +16,13 @@ public class Paddle {
     Paddle(){
         //initialising the paddle
         x=(screenSize.getWidth()-paddleWidth)/2;
-        y=screenSize.getHeight()-100;
+        y=screenSize.getHeight()-50;
 
     }
 
     public void draw(Graphics2D g){
          // to change color
-         g.setColor(Color.black);
+         g.setColor(Color.BLUE);
          // used to draw
          g.fillRect((int)x, (int)y, paddleWidth, paddleHeight);
     }
@@ -51,3 +51,5 @@ public class Paddle {
     }
 
 }
+
+//make paddle outline or make its corner round 

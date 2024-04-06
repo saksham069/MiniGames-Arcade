@@ -48,6 +48,8 @@ public class Panel extends JPanel {
         // dispatch thread (EDT), it blocks the EDT, preventing Swing from handling user
         // input or updating the UI.
 
+        this.setBackground(Color.BLACK);
+
         // To fix this freezing issue, you should avoid running long-running tasks on
         // the EDT. Instead, you can use a separate thread to run the game loop.
         Thread gameThread = new Thread(this::run);
@@ -60,7 +62,7 @@ public class Panel extends JPanel {
     }
 
     public void run() {
-
+//instead of game over just make the value of running false stooopido
         while (running) {
             // update
             update();
@@ -98,15 +100,15 @@ public class Panel extends JPanel {
         if(map.isWin()==true){
             g.setFont(new Font("Courier New",Font.BOLD,50));
             g.setColor(Color.RED);
-            g.drawString("YAY YOU WIN!!" ,500,400);
-            ball.stopBall();
+            g.drawString("YAY YOU WIN!!" ,500,600);
+            running=false;
         }
 
         if(isLose()==true){
             g.setFont(new Font("Courier New",Font.BOLD,50));
             g.setColor(Color.RED);
-            g.drawString("OOPS YOU LOSE!!" ,500,400);
-            ball.stopBall();
+            g.drawString("OOPS YOU LOSE!!" ,500,600);
+            running=false;
         }
         
     }
@@ -156,7 +158,7 @@ public class Panel extends JPanel {
     public boolean isLose(){
         boolean isLose=false;
 
-        if(ball.gety()-15> paddle.gety()){
+        if(ball.gety()+12> paddle.gety()){
             isLose=true;
         }
         return isLose;
