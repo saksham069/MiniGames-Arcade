@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import com.example.brickBreaker.BrickBreaker;
 import com.example.doodleJump.DoodleJump;
 import com.example.flappyBird.FlappyBird;
+import com.example.simonGame.SimonGame;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -36,7 +37,7 @@ class Panel extends JPanel {
         games.add(new GameItem(3 * (int) screenWidth / 4 - 100, (int) screenHeight /
                 2 -
                 100,
-                new BrickBreaker()));
+                new SimonGame()));
 
         this.setBackground(Color.BLACK);
         this.setForeground(Color.GRAY);
