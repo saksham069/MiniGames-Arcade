@@ -8,36 +8,23 @@ import javax.swing.*;
 
 class Panel extends JPanel {
 
-    private int birdX = 650;
-    private int birdY = 300;
+    
     private int velocityX = -4; // moves pipes to the left speed
-    private int velocityY = 0;
+    // private int velocityY = 0;
     private int gravity = 1;
 
     // Images : these 4 variables will store our image objects
     Image backgroundImg;
-    Image birdImg;
+    
     Image topPipeImg;
     Image bottomPipeImg;
 
-    int boardWidth = 930;
+    int boardWidth = 1600;
     int boardHeight = 850;
 
-    int birdWidth = 34;
-    int birdHeight = 24;
-
-    class Bird {
-        int x = birdX;
-        int y = birdY;
-        int width = birdWidth;
-        int height = birdHeight;
-
-        Image img;
-
-        Bird(Image img) {
-            this.img = img;
-        }
-    }
+  
+    Bird bird;
+    
 
     // Pipes
     int xPipe = boardWidth;
@@ -58,7 +45,6 @@ class Panel extends JPanel {
         }
     }
 
-    Bird bird;
     ArrayList<Pipe> pipes;
     Random random = new Random();
 
@@ -74,7 +60,7 @@ class Panel extends JPanel {
             public void keyPressed(KeyEvent e) {
 
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    velocityY = -9;
+                    bird.changeBirdVelocity(); 
 
                 }
 
@@ -93,11 +79,11 @@ class Panel extends JPanel {
         setFocusable(true); // make sure that our panel class takes in the key events
 
         backgroundImg = new ImageIcon(getClass().getResource("flappybirdbg.png")).getImage();
-        birdImg = new ImageIcon(getClass().getResource("flappybird.png")).getImage();
+        
         topPipeImg = new ImageIcon(getClass().getResource("toppipe.png")).getImage();
         bottomPipeImg = new ImageIcon(getClass().getResource("bottompipe.png")).getImage();
 
-        bird = new Bird(birdImg);
+        bird = new Bird();
         pipes = new ArrayList<Pipe>();
 
         gameLoopThread = new Thread(() -> {
@@ -120,7 +106,7 @@ class Panel extends JPanel {
             while (true) {
                 pipesPlaced();
                 try {
-                    Thread.sleep(1500); // Adjusted sleep duration for placing pipes every second
+                    Thread.sleep(1500); // Adjusted sleep duration for placing pipes every 1.5 second
                 } catch (InterruptedException e) {
                     System.out.println("Place pipes thread interrupted.");
                 }
@@ -141,22 +127,17 @@ class Panel extends JPanel {
             return;
         }
         // bird
-        velocityY += gravity;
-        bird.y += velocityY;
-        bird.y = Math.max(bird.y, 0); // the bird will stop after the screen is finished
-
-        // pipes
-        // bird.x += velocityX;
+        bird.birdMove();
         for (int i = 0; i < pipes.size(); i++) {
             Pipe pipe = pipes.get(i);
             pipe.x += velocityX;
 
-            if (collision(bird, pipe)) {
+            if (collision( pipe)) {
                 gameOver = true;
                 return; // no need to continue checking for collision if game over
             }
 
-            if(!pipe.passed && bird.x > pipe.x + pipe.width){ //if the bird passes the rigt side of the pipe, pipe.x starts on the left side and pipe.width gives us the right side of the pipe 
+            if(!pipe.passed && bird.getBirdX() > pipe.x + pipe.width){ //if the bird passes the rigt side of the pipe, pipe.x starts on the left side and pipe.width gives us the right side of the pipe 
                    pipe.passed = true;
                    score += 0.5; // since there are 2 pipes, to count it as 1 i have splitted into half
                    System.out.println("Score:" + score);
@@ -167,7 +148,8 @@ class Panel extends JPanel {
 
         }
 
-        if (bird.y > boardHeight) { // if bird goes down
+        //temp sol 
+        if (bird.getBirdY() > boardHeight) { // if bird goes down
             gameOver = true;
         }
 
@@ -179,8 +161,8 @@ class Panel extends JPanel {
 
     }
 
-    public boolean collision(Bird a, Pipe b) {
-        Rectangle birdRect = new Rectangle(a.x, a.y, a.width, a.height);
+    public boolean collision(Pipe b) {
+        Rectangle birdRect = new Rectangle(bird.getBirdX(), bird.getBirdY(), bird.getBirdWidth(), bird.getBirdHeight());
         Rectangle pipeRect = new Rectangle(b.x, b.y, b.width, b.height);
         return birdRect.intersects(pipeRect);
     }
@@ -219,39 +201,37 @@ class Panel extends JPanel {
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
 
         // background
-        g.drawImage(backgroundImg, 600, 1, 390, 850, null);
+        g2d.drawImage(backgroundImg, 1, 1, 1600, 850, null);
 
         // bird
-        g.drawImage(bird.img, bird.x, bird.y, bird.width, bird.height, null);
-        g.setColor(Color.RED); // Set color to red for the bounding box
-        g.drawRect(bird.x, bird.y, bird.width, bird.height); // Draw bounding box
-        
+       
 
-
+        bird.draw(g2d);
 
 
         // pipes
         for (int i = 0; i < pipes.size(); i++) {
             Pipe pipe = pipes.get(i);
             
-            g.drawImage(pipe.img, pipe.x, pipe.y, pipe.width, pipe.height, null);
+            g2d.drawImage(pipe.img, pipe.x, pipe.y, pipe.width, pipe.height, null);
 
             // Draw bounding box around pipe
-            g.setColor(Color.RED); // Set color to red for the bounding box
-            g.drawRect(pipe.x, pipe.y, pipe.width, pipe.height); // Draw bounding box
+            g2d.setColor(Color.RED); // Set color to red for the bounding box
+            g2d.drawRect(pipe.x, pipe.y, pipe.width, pipe.height); // Draw bounding box
             
         }
 
         //score
-        g.setColor(Color.white);
-        g.setFont(new Font("Arial", Font.PLAIN, 32));
+        g2d.setColor(Color.white);
+        g2d.setFont(new Font("Arial", Font.PLAIN, 32));
         if(gameOver){
-            g.drawString("Game Over: " + String.valueOf((int)score), 10, 35);
+            g2d.drawString("Game Over: " + String.valueOf((int)score), 10, 35);
         }
         else{
-            g.drawString("Score: "+ String.valueOf((int) score), 10, 35);
+            g2d.drawString("Score: "+ String.valueOf((int) score), 10, 35);
         }
     }
 
