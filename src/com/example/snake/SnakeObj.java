@@ -16,7 +16,26 @@ public class SnakeObj {
 	int bodyParts = 6;
 
     SnakeObj(){
-        
+        // Calculate the center position of the screen
+        // int centerX = (int) (screenSize.getWidth() / 2);
+        // int centerY = (int) (screenSize.getHeight() / 2);
+
+        // // Calculate the initial position of the snake's head
+        // // x[0] = centerX - (blockSize / 2);
+        // // y[0] = centerY - (blockSize / 2);
+
+        // // Initialize the positions of the other body parts
+        // for (int i = 0; i < bodyParts; i++) {
+        //     x[i] = centerX - (blockSize / 2)- (i * blockSize);
+        // y[i] = centerY - (blockSize / 2);
+        //     // x[i] = x[0]  // Place the body parts horizontally
+        //     // y[i] = y[0];
+        //     update(0);
+        //  } // Align with the head vertically
+
+        update(1);
+
+         
     }
 
     public void draw(Graphics2D g2d){
@@ -62,10 +81,44 @@ public class SnakeObj {
         }
     }
 
-    Rectangle getRect(){
+    Rectangle getRectHead(){
         return new Rectangle(x[0],y[0],blockSize,blockSize);
 
     }
+
+    public boolean checkBodyCollisions() {
+    //checks if head collides with body
+    for(int i = bodyParts;i>1;i--) {
+        if((x[0] == x[i])&& (y[0] == y[i])) {
+            System.out.println("stuff");
+            return false;
+        }
+    }
+    //check if head touches left border
+    if(x[0] < 0) {
+        System.out.println("stuff left");
+        return false;
+    }
+    //check if head touches right border
+    if(x[0] > screenSize.getWidth()) {
+        System.out.println("stuff right");
+
+        return false;
+    }
+    //check if head touches top border
+    if(y[0] < 0) {
+        System.out.println("stuff top");
+
+        return false;
+    }
+    //check if head touches bottom border
+    if(y[0] > screenSize.getHeight()) {
+        System.out.println("stuff bottom");
+
+        return false;
+    }
+    return true;
+}
 
     public void changeUp(){
         y[0] = y[0] - blockSize;

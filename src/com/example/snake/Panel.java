@@ -14,10 +14,11 @@ public class Panel extends JPanel{
 
     Rectangle foodRect;
     Rectangle snakeHeadRect;
-    Rectangle snakeBodyRect;
+    Rectangle[] snakeBodyRect;
 
     boolean running =true;
     int controller;
+    private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     public Panel(){
          snake=new SnakeObj();
@@ -26,6 +27,7 @@ public class Panel extends JPanel{
          this.setBackground(Color.BLACK);
          Thread gameThread = new Thread(this::run);
          gameThread.start();
+         controller=1;
          addKeyListener(new KeyListener() {
 
             @Override
@@ -37,16 +39,20 @@ public class Panel extends JPanel{
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_RIGHT:
-                        controller=1;
+                        if (controller!=2){
+                            controller=1;}
                         break;
                     case KeyEvent.VK_LEFT:
-                        controller=2;
+                    if (controller!=1){
+                        controller=2;}
                         break;
                     case KeyEvent.VK_UP:
-                        controller=3;
+                    if (controller!=4){
+                        controller=3;}
                         break;
                     case KeyEvent.VK_DOWN:
-                        controller=4;
+                    if (controller!=3){
+                        controller=4;}
                         break;
                     default:
                         break;
@@ -83,16 +89,35 @@ public class Panel extends JPanel{
         
         snake.draw(g2d);
         food.draw(g2d);
+
+        if(running==false){
+            g.setFont(new Font("Courier New",Font.BOLD,70));
+            g.setColor(Color.RED);
+            g.drawString("GAME OVER" ,(int)screenSize.getWidth()/2-180,(int)screenSize.getHeight()/2);
+            running=false;
+        }
     }
 
     public void collisionChecker(){
-        snakeHeadRect=snake.getRect();
+        snakeHeadRect=snake.getRectHead();
         foodRect=food.getRect();
 
         if (snakeHeadRect.intersects(foodRect)) {
             snake.setBodyParts();
-            food.foodReSpawn();
+            food.foodReSpawn(); 
+        }
 
+        running=snake.checkBodyCollisions();
     }
+
+    // public boolean isLose(){
+    //     boolean isLose=false;
+
+    //     if(ball.gety()+12> paddle.gety()){
+    //         isLose=true;
+    //     }
+    //     return isLose;
+    // }
 }
-}
+
+
