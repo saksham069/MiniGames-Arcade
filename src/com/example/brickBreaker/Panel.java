@@ -3,21 +3,24 @@ package com.example.brickBreaker;
 import javax.swing.*;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 
 public class Panel extends JPanel {
     private boolean running;
-
+    private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     // entities
     Ball ball;
     Paddle paddle;
     Map map;
     Score score;
+    int temp=0;
 
     // fields
     Rectangle ballRect;
@@ -25,7 +28,8 @@ public class Panel extends JPanel {
 
     // inputs
     private MouseInputs mouseInputs;
-    private int mouseX;
+    
+    int speed;
 
     // constructor
     public Panel() {
@@ -36,7 +40,7 @@ public class Panel extends JPanel {
 
         // initialising the loop and the entities
         running = true;
-        mouseX=0;
+        speed=6;
 
         ball = new Ball();
         paddle = new Paddle();
@@ -73,7 +77,7 @@ public class Panel extends JPanel {
             // display
             try {
                 // too fast
-                Thread.sleep(6);
+                Thread.sleep(speed);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -100,14 +104,14 @@ public class Panel extends JPanel {
         if(map.isWin()==true){
             g.setFont(new Font("Courier New",Font.BOLD,50));
             g.setColor(Color.RED);
-            g.drawString("YAY YOU WIN!!" ,500,600);
+            g.drawString("YAY YOU WIN !" ,(int)screenSize.getWidth()/2-180,(int)screenSize.getHeight()/2);
             running=false;
         }
 
         if(isLose()==true){
             g.setFont(new Font("Courier New",Font.BOLD,50));
             g.setColor(Color.RED);
-            g.drawString("OOPS YOU LOSE!!" ,500,600);
+            g.drawString("GAME OVER" ,(int)screenSize.getWidth()/2-180,(int)screenSize.getHeight()/2);
             running=false;
         }
         
@@ -146,7 +150,8 @@ public class Panel extends JPanel {
                         ball.setDy(-ball.getDy());
 
                         score.addScore(20);
-
+                        temp++;
+                        adjustSpeed();
                         break A;
                     }
                 }
@@ -164,6 +169,14 @@ public class Panel extends JPanel {
         return isLose;
     }
 
+    public void adjustSpeed(){
+        if(speed!=2 && temp==10){
+            System.out.println(speed);
+            speed-=1;
+            temp=0;
+        }
+    }
+
     // mouse inputs
     private class MouseInputs implements MouseMotionListener {
 
@@ -172,8 +185,7 @@ public class Panel extends JPanel {
         }
 
         @Override
-        public void mouseMoved(MouseEvent e) {
-            mouseX=e.getX();
+        public void mouseMoved(MouseEvent e) { 
             paddle.setPaddlePos(e.getX());
         }
     }

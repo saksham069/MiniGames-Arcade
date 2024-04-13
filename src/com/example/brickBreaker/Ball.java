@@ -16,9 +16,9 @@ public class Ball {
     public Ball() {
         // initialising the ball
         x = 3 * screenSize.getHeight() / 4;
-        y = 100;
+        y = 3*screenSize.getHeight()/4;
         dx = 1;
-        dy = 3;
+        dy = -3;
 
     }
 

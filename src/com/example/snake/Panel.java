@@ -3,31 +3,34 @@ import java.awt.*;
 import javax.swing.JPanel;
 import java.awt.Graphics2D;
 import java.awt.Graphics;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Panel extends JPanel{
     SnakeObj snake;
     Food food;
+    Score score;
 
     Rectangle foodRect;
     Rectangle snakeHeadRect;
     Rectangle[] snakeBodyRect;
 
+    int speed;
     boolean running =true;
-    int controller;
+    int directionController;;
+    
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     public Panel(){
          snake=new SnakeObj();
          food=new Food();
+         score= new Score();
 
          this.setBackground(Color.BLACK);
          Thread gameThread = new Thread(this::run);
          gameThread.start();
-         controller=1;
+         directionController=1;
+         speed=100;
          addKeyListener(new KeyListener() {
 
             @Override
@@ -39,21 +42,25 @@ public class Panel extends JPanel{
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_RIGHT:
-                        if (controller!=2){
-                            controller=1;}
+                        if (directionController!=2){
+                            directionController=1;}
                         break;
+
                     case KeyEvent.VK_LEFT:
-                    if (controller!=1){
-                        controller=2;}
+                    if (directionController!=1){
+                            directionController=2;}
                         break;
+
                     case KeyEvent.VK_UP:
-                    if (controller!=4){
-                        controller=3;}
+                    if (directionController!=4){
+                            directionController=3;}
                         break;
+
                     case KeyEvent.VK_DOWN:
-                    if (controller!=3){
-                        controller=4;}
+                    if (directionController!=3){
+                            directionController=4;}
                         break;
+
                     default:
                         break;
                 }
@@ -71,7 +78,7 @@ public class Panel extends JPanel{
         while (running) {
             update();
             try {
-                Thread.sleep(50);
+                Thread.sleep(speed);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -79,7 +86,7 @@ public class Panel extends JPanel{
     }
 
     public void update(){
-        snake.update(controller);
+        snake.update(directionController);
         collisionChecker();
     }
 
@@ -89,6 +96,7 @@ public class Panel extends JPanel{
         
         snake.draw(g2d);
         food.draw(g2d);
+        score.draw(g2d);
 
         if(running==false){
             g.setFont(new Font("Courier New",Font.BOLD,70));
@@ -105,19 +113,20 @@ public class Panel extends JPanel{
         if (snakeHeadRect.intersects(foodRect)) {
             snake.setBodyParts();
             food.foodReSpawn(); 
+            score.addScore(20);
+            adjustSpeed();
         }
 
         running=snake.checkBodyCollisions();
+        snake.checkBorderCollisions();
     }
 
-    // public boolean isLose(){
-    //     boolean isLose=false;
-
-    //     if(ball.gety()+12> paddle.gety()){
-    //         isLose=true;
-    //     }
-    //     return isLose;
-    // }
+    public void adjustSpeed(){
+        if(speed!=20){
+            System.out.println(speed);
+            speed-=3;
+        }
+    }
 }
 
 

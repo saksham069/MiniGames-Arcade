@@ -1,6 +1,5 @@
 package com.example.snake;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -16,25 +15,6 @@ public class SnakeObj {
 	int bodyParts = 6;
 
     SnakeObj(){
-        // Calculate the center position of the screen
-        // int centerX = (int) (screenSize.getWidth() / 2);
-        // int centerY = (int) (screenSize.getHeight() / 2);
-
-        // // Calculate the initial position of the snake's head
-        // // x[0] = centerX - (blockSize / 2);
-        // // y[0] = centerY - (blockSize / 2);
-
-        // // Initialize the positions of the other body parts
-        // for (int i = 0; i < bodyParts; i++) {
-        //     x[i] = centerX - (blockSize / 2)- (i * blockSize);
-        // y[i] = centerY - (blockSize / 2);
-        //     // x[i] = x[0]  // Place the body parts horizontally
-        //     // y[i] = y[0];
-        //     update(0);
-        //  } // Align with the head vertically
-
-        update(1);
-
          
     }
 
@@ -94,29 +74,6 @@ public class SnakeObj {
             return false;
         }
     }
-    //check if head touches left border
-    if(x[0] < 0) {
-        System.out.println("stuff left");
-        return false;
-    }
-    //check if head touches right border
-    if(x[0] > screenSize.getWidth()) {
-        System.out.println("stuff right");
-
-        return false;
-    }
-    //check if head touches top border
-    if(y[0] < 0) {
-        System.out.println("stuff top");
-
-        return false;
-    }
-    //check if head touches bottom border
-    if(y[0] > screenSize.getHeight()) {
-        System.out.println("stuff bottom");
-
-        return false;
-    }
     return true;
 }
 
@@ -141,7 +98,28 @@ public class SnakeObj {
         bodyParts+=1;
         System.out.println(bodyParts);
     }
-}
 
+
+public void checkBorderCollisions(){
+    //check if head touches left border
+    if(x[0] < 0) {
+        x[0]=(int)screenSize.getWidth();
+    }
+    //check if head touches right border
+    if(x[0] > screenSize.getWidth()) {
+        x[0]=0;
+    }
+
+    //check if head touches top border
+    if(y[0] < 0) {
+        y[0]=(int)screenSize.getHeight();
+    }
+    //check if head touches bottom border
+    if(y[0] > screenSize.getHeight()) {
+        y[0]=0;
+
+    }
+}
+}
 
 //press(up down left right x , y change bool value if (x)change x , if ( y) change y)
