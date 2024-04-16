@@ -26,7 +26,8 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
     private Player player;
     private Deque<Block> blocks; // deque for blocks
     // private Block block;
-    private int nBlock; // number of total blocks spawned
+    private int nBlock; // number of total blocks spawned // krne ki zarurat ni hai if needed i'll make
+                        // static field in class
     private final Random random;
     private final double xSpeed = 10;
     private double ySpeed = 0;
@@ -66,11 +67,8 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
         bY = screenHeight / 2 + 100;
         blocks = new ArrayDeque<>();
         blocks.add(new Block(screenWidth / 2 - 100 / 2, bY));
-        blocks.add(new Block(random.nextInt(2 * 200 + 1 - 100/* block width */) + screenWidth / 2 - 200, bY - 100));
-        blocks.add(new Block(random.nextInt(2 * 200 + 1 - 100/* block width */) + screenWidth / 2 - 200, bY - 200));
-        blocks.add(new Block(random.nextInt(2 * 200 + 1 - 100/* block width */) + screenWidth / 2 - 200, bY - 300));
-        blocks.add(new Block(random.nextInt(2 * 200 + 1 - 100/* block width */) + screenWidth / 2 - 200, bY - 400));
-        this.setBackground(Color.BLACK);
+        blocks.add(new Block(random.nextInt(2 * 200 + 1 - Block.getWidth()) + screenWidth / 2 - 200,
+                bY - Block.getCount() * 100));
 
         checkCollisionsThread = new Thread(() -> {
             while (true) {
