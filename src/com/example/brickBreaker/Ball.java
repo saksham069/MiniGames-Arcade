@@ -16,9 +16,9 @@ public class Ball {
     public Ball() {
         // initialising the ball
         x = 3 * screenSize.getHeight() / 4;
-        y = 100;
+        y = 3*screenSize.getHeight()/4;
         dx = 1;
-        dy = 3;
+        dy = -3;
 
     }
 
@@ -27,7 +27,7 @@ public class Ball {
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.black);
+        g.setColor(Color.BLUE);
         g.setStroke(new BasicStroke(4));
         g.drawOval((int) x, (int) y, ballSize, ballSize);
     }

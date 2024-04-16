@@ -1,10 +1,13 @@
 package com.example.doodleJump;
 
+import com.example.pauseMenu.MenuOverlay;
+
 import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import java.util.Deque;
 import java.util.ArrayDeque;
 import java.util.Random;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -37,8 +40,16 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
     private int score;
     private Thread gameThread;
     private Thread checkCollisionsThread;
+    private final boolean[] paused;
+    private final JFrame parentFrame;
+    private MenuOverlay overlay;
 
     Panel() {
+        // PAUSE MENU
+        paused = new boolean[] { false };
+        parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        overlay = new MenuOverlay(parentFrame, new DoodleJump(), paused);
+
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenHeight = screenSize.getHeight();
         screenWidth = screenSize.getWidth();
@@ -63,6 +74,13 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
 
         checkCollisionsThread = new Thread(() -> {
             while (true) {
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (paused[0])
+                    continue;
                 blocks.forEach((b) -> {
                     if (b.collider.intersects(player.collider) && ySpeed >= 0) {
                         double shift = player.collider.getY() + player.collider.getHeight() - b.collider.getY();
@@ -79,16 +97,18 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
                     pX = screenWidth / 2 + 200 - pWidth;
                     moveR = false;
                 }
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
         });
 
         gameThread = new Thread(() -> {
             while (true) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (paused[0])
+                    continue;
                 ySpeed += gravity;
                 blocks.forEach((b) -> {
                     b.setY -= ySpeed;
@@ -99,11 +119,6 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
                     pX += xSpeed;
                 if (moveL)
                     pX -= xSpeed;
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
         });
 
@@ -111,12 +126,15 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
 
             @Override
             public void keyTyped(KeyEvent e) {
-
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
+                    case KeyEvent.VK_ESCAPE:
+                        paused[0] = !paused[0];
+                        overlay.setVisible(paused[0]);
+                        break;
                     case KeyEvent.VK_RIGHT:
                         moveR = true;
                         break;

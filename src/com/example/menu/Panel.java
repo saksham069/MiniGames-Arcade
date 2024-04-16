@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import com.example.brickBreaker.BrickBreaker;
 import com.example.doodleJump.DoodleJump;
 import com.example.flappyBird.FlappyBird;
+import com.example.snake.Snake;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,16 +28,20 @@ class Panel extends JPanel {
         screenWidth = screenSize.getWidth();
 
         games = new ArrayList<GameItem>();
-        games.add(new GameItem((int) screenWidth / 4 - 100, (int) screenHeight / 2 - 100,
+        games.add(new GameItem((int) screenWidth / 5 - 100, (int) screenHeight / 2 - 100,
                 new DoodleJump()));
-        games.add(new GameItem(2 * (int) screenWidth / 4 - 100, (int) screenHeight /
+        games.add(new GameItem(2 * (int) screenWidth / 5 - 100, (int) screenHeight /
                 2 -
                 100,
                 new FlappyBird()));
-        games.add(new GameItem(3 * (int) screenWidth / 4 - 100, (int) screenHeight /
+        games.add(new GameItem(3 * (int) screenWidth / 5 - 100, (int) screenHeight /
                 2 -
                 100,
                 new BrickBreaker()));
+        games.add(new GameItem(4 * (int) screenWidth / 5 - 100, (int) screenHeight /
+                2 -
+                100,
+                new Snake()));
 
         this.setBackground(Color.BLACK);
         this.setForeground(Color.GRAY);

@@ -3,21 +3,24 @@ package com.example.brickBreaker;
 import javax.swing.*;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 
 public class Panel extends JPanel {
     private boolean running;
-
+    private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     // entities
     Ball ball;
     Paddle paddle;
     Map map;
     Score score;
+    int temp=0;
 
     // fields
     Rectangle ballRect;
@@ -25,7 +28,8 @@ public class Panel extends JPanel {
 
     // inputs
     private MouseInputs mouseInputs;
-    private int mouseX;
+    
+    int speed;
 
     // constructor
     public Panel() {
@@ -36,7 +40,7 @@ public class Panel extends JPanel {
 
         // initialising the loop and the entities
         running = true;
-        mouseX=0;
+        speed=6;
 
         ball = new Ball();
         paddle = new Paddle();
@@ -47,6 +51,8 @@ public class Panel extends JPanel {
         // This loop runs continuously, and since it's executed on the Swing event
         // dispatch thread (EDT), it blocks the EDT, preventing Swing from handling user
         // input or updating the UI.
+
+        this.setBackground(Color.BLACK);
 
         // To fix this freezing issue, you should avoid running long-running tasks on
         // the EDT. Instead, you can use a separate thread to run the game loop.
@@ -60,7 +66,7 @@ public class Panel extends JPanel {
     }
 
     public void run() {
-
+//instead of game over just make the value of running false stooopido
         while (running) {
             // update
             update();
@@ -71,7 +77,7 @@ public class Panel extends JPanel {
             // display
             try {
                 // too fast
-                Thread.sleep(6);
+                Thread.sleep(speed);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -98,15 +104,15 @@ public class Panel extends JPanel {
         if(map.isWin()==true){
             g.setFont(new Font("Courier New",Font.BOLD,50));
             g.setColor(Color.RED);
-            g.drawString("YAY YOU WIN!!" ,500,400);
-            ball.stopBall();
+            g.drawString("YAY YOU WIN !" ,(int)screenSize.getWidth()/2-180,(int)screenSize.getHeight()/2);
+            running=false;
         }
 
         if(isLose()==true){
             g.setFont(new Font("Courier New",Font.BOLD,50));
             g.setColor(Color.RED);
-            g.drawString("OOPS YOU LOSE!!" ,500,400);
-            ball.stopBall();
+            g.drawString("GAME OVER" ,(int)screenSize.getWidth()/2-180,(int)screenSize.getHeight()/2);
+            running=false;
         }
         
     }
@@ -144,7 +150,8 @@ public class Panel extends JPanel {
                         ball.setDy(-ball.getDy());
 
                         score.addScore(20);
-
+                        temp++;
+                        adjustSpeed();
                         break A;
                     }
                 }
@@ -156,10 +163,18 @@ public class Panel extends JPanel {
     public boolean isLose(){
         boolean isLose=false;
 
-        if(ball.gety()-15> paddle.gety()){
+        if(ball.gety()+12> paddle.gety()){
             isLose=true;
         }
         return isLose;
+    }
+
+    public void adjustSpeed(){
+        if(speed!=2 && temp==10){
+            System.out.println(speed);
+            speed-=1;
+            temp=0;
+        }
     }
 
     // mouse inputs
@@ -170,8 +185,7 @@ public class Panel extends JPanel {
         }
 
         @Override
-        public void mouseMoved(MouseEvent e) {
-            mouseX=e.getX();
+        public void mouseMoved(MouseEvent e) { 
             paddle.setPaddlePos(e.getX());
         }
     }
