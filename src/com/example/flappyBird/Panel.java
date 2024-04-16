@@ -11,7 +11,7 @@ class Panel extends JPanel {
     
     private int velocityX = -4; // moves pipes to the left speed
     // private int velocityY = 0;
-    private int gravity = 1;
+    private final int gravity = 1;
 
     // Images : these 4 variables will store our image objects
     Image backgroundImg;
@@ -153,11 +153,7 @@ class Panel extends JPanel {
             gameOver = true;
         }
 
-        // Calculate the position of the right edge of the background
-        int backgroundRightEdge = 654; // x-coordinate of background + width
-
-        // Remove pipes that have moved beyond the right edge of the background
-        // pipes.removeIf(pipe -> pipe.x + pipe.width < backgroundRightEdge);
+        
 
     }
 
