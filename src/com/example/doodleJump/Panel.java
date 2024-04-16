@@ -66,9 +66,11 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
         random = new Random();
         bY = screenHeight / 2 + 100;
         blocks = new ArrayDeque<>();
+        Block.initCount(); // initialise block or score counter
         blocks.add(new Block(screenWidth / 2 - 100 / 2, bY));
         blocks.add(new Block(random.nextInt(2 * 200 + 1 - Block.getWidth()) + screenWidth / 2 - 200,
                 bY - Block.getCount() * 100));
+        this.setBackground(Color.BLACK); // cpu utilization fix ***
 
         checkCollisionsThread = new Thread(() -> {
             while (true) {
