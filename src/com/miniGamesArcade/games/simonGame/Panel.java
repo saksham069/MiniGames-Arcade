@@ -1,8 +1,12 @@
 package com.miniGamesArcade.games.simonGame;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
+import com.miniGamesArcade.pauseMenu.MenuOverlay;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -16,7 +20,16 @@ public class Panel extends JPanel {
     // private boolean gameStarted;
     private JLabel startLabel;
 
+    private final boolean[] paused;
+    private final JFrame parentFrame;
+    private MenuOverlay overlay;
+
     Panel() {
+        // PAUSE MENU
+        paused = new boolean[] { false };
+        parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        overlay = new MenuOverlay(parentFrame, new SimonGame(), paused);
+
         block = new Blocks();
         // gameStarted = false;
 
@@ -26,7 +39,7 @@ public class Panel extends JPanel {
         startLabel.setForeground(Color.RED);
         startLabel.setHorizontalAlignment(SwingConstants.CENTER);
         startLabel.setVerticalAlignment(SwingConstants.CENTER);
-        
+
         add(startLabel); // Add the label to the panel
 
         addKeyListener(new KeyListener() {
@@ -97,7 +110,7 @@ public class Panel extends JPanel {
                     if (block.getFlashed() != 0) {
                         if (block.getPattern().get(block.getIndexPattern()) == block.getFlashed()) {
                             block.setIndexPattern(block.getIndexPattern() + 1);
-                            
+
                         } else {
                             block.start();
                             block.setGameOver(true);
@@ -137,7 +150,7 @@ public class Panel extends JPanel {
 
             g.setColor(Color.MAGENTA);
             g.setFont(new Font("Arial", Font.BOLD, 35));
-            g.drawString("Level:"+ block.getLevel(), 20, 40);
+            g.drawString("Level:" + block.getLevel(), 20, 40);
         }
 
     }

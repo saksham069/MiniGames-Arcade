@@ -2,6 +2,8 @@ package com.miniGamesArcade.games.brickBreaker;
 
 import javax.swing.*;
 
+import com.miniGamesArcade.pauseMenu.MenuOverlay;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -20,7 +22,7 @@ public class Panel extends JPanel {
     Paddle paddle;
     Map map;
     Score score;
-    int temp=0;
+    int temp = 0;
 
     // fields
     Rectangle ballRect;
@@ -28,11 +30,19 @@ public class Panel extends JPanel {
 
     // inputs
     private MouseInputs mouseInputs;
-    
+
     int speed;
+
+    private final boolean[] paused;
+    private final JFrame parentFrame;
+    private MenuOverlay overlay;
 
     // constructor
     public Panel() {
+        // PAUSE MENU
+        paused = new boolean[] { false };
+        parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        overlay = new MenuOverlay(parentFrame, new BrickBreaker(), paused);
 
         // initiallsing the mouse inputs
         mouseInputs = new MouseInputs();
@@ -40,12 +50,12 @@ public class Panel extends JPanel {
 
         // initialising the loop and the entities
         running = true;
-        speed=6;
+        speed = 6;
 
         ball = new Ball();
         paddle = new Paddle();
         map = new Map(9, 13);
-        score= new Score();
+        score = new Score();
 
         // different thread for the game loop
         // This loop runs continuously, and since it's executed on the Swing event
@@ -58,7 +68,7 @@ public class Panel extends JPanel {
         // the EDT. Instead, you can use a separate thread to run the game loop.
         Thread gameThread = new Thread(this::run);
         gameThread.start();
-        
+
         // IMPLEEMNT KEYBOARD LATER ON
         // // listens to the key pressed (for keyboards)
         // addKeyListener(new KeyboardInputs(this));
@@ -66,7 +76,7 @@ public class Panel extends JPanel {
     }
 
     public void run() {
-//instead of game over just make the value of running false stooopido
+        // instead of game over just make the value of running false stooopido
         while (running) {
             // update
             update();
@@ -101,20 +111,20 @@ public class Panel extends JPanel {
         paddle.draw(g2d);
         score.draw(g2d);
 
-        if(map.isWin()==true){
-            g.setFont(new Font("Courier New",Font.BOLD,50));
+        if (map.isWin() == true) {
+            g.setFont(new Font("Courier New", Font.BOLD, 50));
             g.setColor(Color.RED);
-            g.drawString("YAY YOU WIN !" ,(int)screenSize.getWidth()/2-180,(int)screenSize.getHeight()/2);
-            running=false;
+            g.drawString("YAY YOU WIN !", (int) screenSize.getWidth() / 2 - 180, (int) screenSize.getHeight() / 2);
+            running = false;
         }
 
-        if(isLose()==true){
-            g.setFont(new Font("Courier New",Font.BOLD,50));
+        if (isLose() == true) {
+            g.setFont(new Font("Courier New", Font.BOLD, 50));
             g.setColor(Color.RED);
-            g.drawString("GAME OVER" ,(int)screenSize.getWidth()/2-180,(int)screenSize.getHeight()/2);
-            running=false;
+            g.drawString("GAME OVER", (int) screenSize.getWidth() / 2 - 180, (int) screenSize.getHeight() / 2);
+            running = false;
         }
-        
+
     }
 
     public void collisionChecker() {
@@ -124,13 +134,14 @@ public class Panel extends JPanel {
         if (ballRect.intersects(paddleRect)) {
             ball.setDy(-ball.getDy());
 
-            //work on the x change logic 
+            // work on the x change logic
 
             // if(ball.getx()< mouseX + paddle.getWidth()/4)
-            //     ball.setDx(ball.getDx()-0.5);
+            // ball.setDx(ball.getDx()-0.5);
 
-            // if(ball.getx()< mouseX + paddle.getWidth() && ball.getx()> mouseX + paddle.getWidth()/4 )
-            //     ball.setDx(ball.getDx()+0.5);
+            // if(ball.getx()< mouseX + paddle.getWidth() && ball.getx()> mouseX +
+            // paddle.getWidth()/4 )
+            // ball.setDx(ball.getDx()+0.5);
         }
 
         A: for (int row = 0; row < map.getMapArray().length; row++) {
@@ -160,20 +171,20 @@ public class Panel extends JPanel {
         }
     }
 
-    public boolean isLose(){
-        boolean isLose=false;
+    public boolean isLose() {
+        boolean isLose = false;
 
-        if(ball.gety()+12> paddle.gety()){
-            isLose=true;
+        if (ball.gety() + 12 > paddle.gety()) {
+            isLose = true;
         }
         return isLose;
     }
 
-    public void adjustSpeed(){
-        if(speed!=2 && temp==10){
+    public void adjustSpeed() {
+        if (speed != 2 && temp == 10) {
             System.out.println(speed);
-            speed-=1;
-            temp=0;
+            speed -= 1;
+            temp = 0;
         }
     }
 
@@ -185,7 +196,7 @@ public class Panel extends JPanel {
         }
 
         @Override
-        public void mouseMoved(MouseEvent e) { 
+        public void mouseMoved(MouseEvent e) {
             paddle.setPaddlePos(e.getX());
         }
     }

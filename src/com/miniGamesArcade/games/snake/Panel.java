@@ -1,6 +1,12 @@
 package com.miniGamesArcade.games.snake;
 import java.awt.*;
+
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import com.miniGamesArcade.pauseMenu.MenuOverlay;
+
 import java.awt.Graphics2D;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -21,7 +27,16 @@ public class Panel extends JPanel{
     
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
+    private final boolean[] paused;
+    private final JFrame parentFrame;
+    private MenuOverlay overlay;
+
     public Panel(){
+        // PAUSE MENU
+        paused = new boolean[] { false };
+        parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        overlay = new MenuOverlay(parentFrame, new Snake(), paused);
+
          snake=new SnakeObj();
          food=new Food();
          score= new Score();

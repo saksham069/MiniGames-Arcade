@@ -6,31 +6,34 @@ import java.util.ArrayList; //to store all the pipes
 import java.util.Random;
 import javax.swing.*;
 
+import com.miniGamesArcade.pauseMenu.MenuOverlay;
+
 class Panel extends JPanel {
 
-    
     private int velocityX = -4; // moves pipes to the left speed
     // private int velocityY = 0;
     private final int gravity = 1;
 
     // Images : these 4 variables will store our image objects
     Image backgroundImg;
-    
+
     Image topPipeImg;
     Image bottomPipeImg;
 
     int boardWidth = 1600;
     int boardHeight = 850;
 
-  
     Bird bird;
-    
 
     // Pipes
     int xPipe = boardWidth;
     int yPipe = 0;
     int widthPipe = 64;
     int heightPipe = 512;
+
+    private final boolean[] paused;
+    private final JFrame parentFrame;
+    private MenuOverlay overlay;
 
     class Pipe {
         int x = xPipe;
@@ -55,12 +58,16 @@ class Panel extends JPanel {
     double score = 0;
 
     Panel() {
+        // PAUSE MENU
+        paused = new boolean[] { false };
+        parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        overlay = new MenuOverlay(parentFrame, new FlappyBird(), paused);
         addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(KeyEvent e) {
 
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    bird.changeBirdVelocity(); 
+                    bird.changeBirdVelocity();
 
                 }
 
@@ -79,7 +86,7 @@ class Panel extends JPanel {
         setFocusable(true); // make sure that our panel class takes in the key events
 
         backgroundImg = new ImageIcon(getClass().getResource("flappybirdbg.png")).getImage();
-        
+
         topPipeImg = new ImageIcon(getClass().getResource("toppipe.png")).getImage();
         bottomPipeImg = new ImageIcon(getClass().getResource("bottompipe.png")).getImage();
 
@@ -95,7 +102,7 @@ class Panel extends JPanel {
                     Thread.sleep(1000 / 40);// Adjusted sleep duration for smoother animation (40 frames per second)
                 } catch (InterruptedException e) {
                     System.out.println("Game loop thread interrupted.");
-        
+
                 }
             }
 
@@ -132,28 +139,26 @@ class Panel extends JPanel {
             Pipe pipe = pipes.get(i);
             pipe.x += velocityX;
 
-            if (collision( pipe)) {
+            if (collision(pipe)) {
                 gameOver = true;
                 return; // no need to continue checking for collision if game over
             }
 
-            if(!pipe.passed && bird.getBirdX() > pipe.x + pipe.width){ //if the bird passes the rigt side of the pipe, pipe.x starts on the left side and pipe.width gives us the right side of the pipe 
-                   pipe.passed = true;
-                   score += 0.5; // since there are 2 pipes, to count it as 1 i have splitted into half
-                   System.out.println("Score:" + score);
+            if (!pipe.passed && bird.getBirdX() > pipe.x + pipe.width) { // if the bird passes the rigt side of the
+                                                                         // pipe, pipe.x starts on the left side and
+                                                                         // pipe.width gives us the right side of the
+                                                                         // pipe
+                pipe.passed = true;
+                score += 0.5; // since there are 2 pipes, to count it as 1 i have splitted into half
+                System.out.println("Score:" + score);
             }
-           
-            
-       
 
         }
 
-        //temp sol 
+        // temp sol
         if (bird.getBirdY() > boardHeight) { // if bird goes down
             gameOver = true;
         }
-
-        
 
     }
 
@@ -190,8 +195,6 @@ class Panel extends JPanel {
                                                               // we nned to shift it down
         pipes.add(bottomPipe);
 
-
-
     }
 
     public void paintComponent(Graphics g) {
@@ -203,31 +206,28 @@ class Panel extends JPanel {
         g2d.drawImage(backgroundImg, 1, 1, 1600, 850, null);
 
         // bird
-       
 
         bird.draw(g2d);
-
 
         // pipes
         for (int i = 0; i < pipes.size(); i++) {
             Pipe pipe = pipes.get(i);
-            
+
             g2d.drawImage(pipe.img, pipe.x, pipe.y, pipe.width, pipe.height, null);
 
             // Draw bounding box around pipe
             g2d.setColor(Color.RED); // Set color to red for the bounding box
             g2d.drawRect(pipe.x, pipe.y, pipe.width, pipe.height); // Draw bounding box
-            
+
         }
 
-        //score
+        // score
         g2d.setColor(Color.white);
         g2d.setFont(new Font("Arial", Font.PLAIN, 32));
-        if(gameOver){
-            g2d.drawString("Game Over: " + String.valueOf((int)score), 10, 35);
-        }
-        else{
-            g2d.drawString("Score: "+ String.valueOf((int) score), 10, 35);
+        if (gameOver) {
+            g2d.drawString("Game Over: " + String.valueOf((int) score), 10, 35);
+        } else {
+            g2d.drawString("Score: " + String.valueOf((int) score), 10, 35);
         }
     }
 
