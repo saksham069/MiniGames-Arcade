@@ -1,2 +1,2 @@
 Manifest-Version: 1.0
-Main-Class: com.example.main.Main
+Main-Class: com.miniGamesArcade.main.Main
