@@ -8,24 +8,36 @@ import java.util.Random;
 import java.awt.Rectangle;
 
 public class Food {
-    private int foodSize=30;
-    private Random random;
+
+    //declaring food instance variables:- 
+    private int foodSize;
     private int foodX;
     private int foodY;
     
+    //declaring random
+    private Random random;
+
+    //to get screenSize
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     Food(){
+
+        //initializing objects using new 
         random= new Random();
+
+        //getting x and y coordinates of food 
         foodX=random.nextInt((int)screenSize.getWidth()/foodSize)*foodSize;
         foodY=random.nextInt((int)screenSize.getHeight()/foodSize)*foodSize;
 
+        //initializing variables 
+        foodSize=30;
+
+
     }
 
+    //
     public void draw(Graphics2D g2d){
-        
         g2d.setColor(Color.RED);
-       
         g2d.fillRect(foodX,foodY , foodSize, foodSize);
     }
 
@@ -40,5 +52,4 @@ public class Food {
 }
 
 
-//change colors and try to make the array oval
 //set screenside collisions 

@@ -1,0 +1,129 @@
+# Details
+
+Date : 2024-04-17 16:38:05
+
+Directory d:\\OneDrive\\Desktop\\mca\\sem 2\\java class\\java project\\MiniGames-Arcade
+
+Total : 114 files,  3366 codes, 207 comments, 510 blanks, all 4083 lines
+
+[Summary](results.md) / Details / [Diff Summary](diff.md) / [Diff Details](diff-details.md)
+
+## Files
+| filename | language | code | comment | blank | total |
+| :--- | :--- | ---: | ---: | ---: | ---: |
+| [README.md](/README.md) | Markdown | 1 | 0 | 1 | 2 |
+| [bin/com/example/brickBreaker/Ball.class](/bin/com/example/brickBreaker/Ball.class) | Java | 20 | 7 | 0 | 27 |
+| [bin/com/example/brickBreaker/BrickBreaker.class](/bin/com/example/brickBreaker/BrickBreaker.class) | Java | 11 | 0 | 0 | 11 |
+| [bin/com/example/brickBreaker/Map.class](/bin/com/example/brickBreaker/Map.class) | Java | 53 | 0 | 0 | 53 |
+| [bin/com/example/brickBreaker/Paddle.class](/bin/com/example/brickBreaker/Paddle.class) | Java | 19 | 0 | 0 | 19 |
+| [bin/com/example/brickBreaker/Panel$MouseInputs.class](/bin/com/example/brickBreaker/Panel$MouseInputs.class) | Java | 13 | 0 | 0 | 13 |
+| [bin/com/example/brickBreaker/Panel.class](/bin/com/example/brickBreaker/Panel.class) | Java | 73 | 0 | 0 | 73 |
+| [bin/com/example/brickBreaker/Score.class](/bin/com/example/brickBreaker/Score.class) | Java | 19 | 0 | 0 | 19 |
+| [bin/com/example/doodleJump/Block.class](/bin/com/example/doodleJump/Block.class) | Java | 16 | 0 | 0 | 16 |
+| [bin/com/example/doodleJump/DoodleJump.class](/bin/com/example/doodleJump/DoodleJump.class) | Java | 11 | 0 | 0 | 11 |
+| [bin/com/example/doodleJump/Panel$1.class](/bin/com/example/doodleJump/Panel$1.class) | Java | 17 | 0 | 2 | 19 |
+| [bin/com/example/doodleJump/Panel$2.class](/bin/com/example/doodleJump/Panel$2.class) | Java | 9 | 0 | 0 | 9 |
+| [bin/com/example/doodleJump/Panel.class](/bin/com/example/doodleJump/Panel.class) | Java | 84 | 0 | 0 | 84 |
+| [bin/com/example/doodleJump/Player.class](/bin/com/example/doodleJump/Player.class) | Java | 12 | 0 | 0 | 12 |
+| [bin/com/example/flappyBird/Bird.class](/bin/com/example/flappyBird/Bird.class) | Java | 17 | 2 | 0 | 19 |
+| [bin/com/example/flappyBird/FlappyBird.class](/bin/com/example/flappyBird/FlappyBird.class) | Java | 10 | 0 | 0 | 10 |
+| [bin/com/example/flappyBird/Panel$1.class](/bin/com/example/flappyBird/Panel$1.class) | Java | 15 | 0 | 0 | 15 |
+| [bin/com/example/flappyBird/Panel$Pipe.class](/bin/com/example/flappyBird/Panel$Pipe.class) | Java | 11 | 0 | 0 | 11 |
+| [bin/com/example/flappyBird/Panel.class](/bin/com/example/flappyBird/Panel.class) | Java | 78 | 0 | 0 | 78 |
+| [bin/com/example/main/Game.class](/bin/com/example/main/Game.class) | Java | 16 | 0 | 1 | 17 |
+| [bin/com/example/main/Main.class](/bin/com/example/main/Main.class) | Java | 10 | 0 | 0 | 10 |
+| [bin/com/example/main/Window.class](/bin/com/example/main/Window.class) | Java | 20 | 0 | 0 | 20 |
+| [bin/com/example/menu/GameItem.class](/bin/com/example/menu/GameItem.class) | Java | 13 | 0 | 0 | 13 |
+| [bin/com/example/menu/Menu.class](/bin/com/example/menu/Menu.class) | Java | 9 | 0 | 0 | 9 |
+| [bin/com/example/menu/Panel$1.class](/bin/com/example/menu/Panel$1.class) | Java | 19 | 1 | 0 | 20 |
+| [bin/com/example/menu/Panel.class](/bin/com/example/menu/Panel.class) | Java | 37 | 0 | 0 | 37 |
+| [bin/com/example/pauseMenu/FuncInt.class](/bin/com/example/pauseMenu/FuncInt.class) | Java | 3 | 0 | 0 | 3 |
+| [bin/com/example/pauseMenu/MenuOverlay$1.class](/bin/com/example/pauseMenu/MenuOverlay$1.class) | Java | 20 | 0 | 0 | 20 |
+| [bin/com/example/pauseMenu/MenuOverlay$2.class](/bin/com/example/pauseMenu/MenuOverlay$2.class) | Java | 18 | 0 | 0 | 18 |
+| [bin/com/example/pauseMenu/MenuOverlay.class](/bin/com/example/pauseMenu/MenuOverlay.class) | Java | 30 | 0 | 0 | 30 |
+| [bin/com/example/pauseMenu/Option.class](/bin/com/example/pauseMenu/Option.class) | Java | 12 | 0 | 0 | 12 |
+| [bin/com/example/simonGame/Blocks.class](/bin/com/example/simonGame/Blocks.class) | Java | 52 | 0 | 0 | 52 |
+| [bin/com/example/simonGame/Panel$1.class](/bin/com/example/simonGame/Panel$1.class) | Java | 18 | 3 | 0 | 21 |
+| [bin/com/example/simonGame/Panel.class](/bin/com/example/simonGame/Panel.class) | Java | 14 | 0 | 0 | 14 |
+| [bin/com/example/simonGame/SimonGame.class](/bin/com/example/simonGame/SimonGame.class) | Java | 11 | 0 | 0 | 11 |
+| [bin/com/example/snake/Food.class](/bin/com/example/snake/Food.class) | Java | 19 | 0 | 0 | 19 |
+| [bin/com/example/snake/Panel$1.class](/bin/com/example/snake/Panel$1.class) | Java | 13 | 0 | 0 | 13 |
+| [bin/com/example/snake/Panel.class](/bin/com/example/snake/Panel.class) | Java | 60 | 0 | 0 | 60 |
+| [bin/com/example/snake/Score.class](/bin/com/example/snake/Score.class) | Java | 23 | 0 | 1 | 24 |
+| [bin/com/example/snake/Snake.class](/bin/com/example/snake/Snake.class) | Java | 12 | 0 | 0 | 12 |
+| [bin/com/example/snake/SnakeObj.class](/bin/com/example/snake/SnakeObj.class) | Java | 42 | 0 | 0 | 42 |
+| [src/com/example/brickBreaker/Ball.class](/src/com/example/brickBreaker/Ball.class) | Java | 25 | 0 | 0 | 25 |
+| [src/com/example/brickBreaker/Ball.java](/src/com/example/brickBreaker/Ball.java) | Java | 67 | 6 | 23 | 96 |
+| [src/com/example/brickBreaker/BrickBreaker.class](/src/com/example/brickBreaker/BrickBreaker.class) | Java | 9 | 0 | 0 | 9 |
+| [src/com/example/brickBreaker/BrickBreaker.java](/src/com/example/brickBreaker/BrickBreaker.java) | Java | 9 | 0 | 3 | 12 |
+| [src/com/example/brickBreaker/KeyboardInputs.java](/src/com/example/brickBreaker/KeyboardInputs.java) | Java | 0 | 32 | 13 | 45 |
+| [src/com/example/brickBreaker/Map.class](/src/com/example/brickBreaker/Map.class) | Java | 33 | 0 | 0 | 33 |
+| [src/com/example/brickBreaker/Map.java](/src/com/example/brickBreaker/Map.java) | Java | 73 | 1 | 25 | 99 |
+| [src/com/example/brickBreaker/Paddle.class](/src/com/example/brickBreaker/Paddle.class) | Java | 22 | 0 | 0 | 22 |
+| [src/com/example/brickBreaker/Paddle.java](/src/com/example/brickBreaker/Paddle.java) | Java | 34 | 6 | 16 | 56 |
+| [src/com/example/brickBreaker/Panel$MouseInputs.class](/src/com/example/brickBreaker/Panel$MouseInputs.class) | Java | 12 | 0 | 0 | 12 |
+| [src/com/example/brickBreaker/Panel.class](/src/com/example/brickBreaker/Panel.class) | Java | 68 | 0 | 0 | 68 |
+| [src/com/example/brickBreaker/Panel.java](/src/com/example/brickBreaker/Panel.java) | Java | 120 | 34 | 43 | 197 |
+| [src/com/example/brickBreaker/Score.class](/src/com/example/brickBreaker/Score.class) | Java | 18 | 0 | 0 | 18 |
+| [src/com/example/brickBreaker/Score.java](/src/com/example/brickBreaker/Score.java) | Java | 22 | 0 | 6 | 28 |
+| [src/com/example/doodleJump/Block.class](/src/com/example/doodleJump/Block.class) | Java | 13 | 0 | 0 | 13 |
+| [src/com/example/doodleJump/Block.java](/src/com/example/doodleJump/Block.java) | Java | 19 | 0 | 8 | 27 |
+| [src/com/example/doodleJump/DoodleJump.class](/src/com/example/doodleJump/DoodleJump.class) | Java | 9 | 0 | 0 | 9 |
+| [src/com/example/doodleJump/DoodleJump.java](/src/com/example/doodleJump/DoodleJump.java) | Java | 9 | 0 | 3 | 12 |
+| [src/com/example/doodleJump/Panel$1.class](/src/com/example/doodleJump/Panel$1.class) | Java | 17 | 0 | 2 | 19 |
+| [src/com/example/doodleJump/Panel$2.class](/src/com/example/doodleJump/Panel$2.class) | Java | 8 | 0 | 0 | 8 |
+| [src/com/example/doodleJump/Panel.class](/src/com/example/doodleJump/Panel.class) | Java | 112 | 0 | 1 | 113 |
+| [src/com/example/doodleJump/Panel.java](/src/com/example/doodleJump/Panel.java) | Java | 178 | 4 | 22 | 204 |
+| [src/com/example/doodleJump/Player.class](/src/com/example/doodleJump/Player.class) | Java | 13 | 0 | 0 | 13 |
+| [src/com/example/doodleJump/Player.java](/src/com/example/doodleJump/Player.java) | Java | 14 | 0 | 5 | 19 |
+| [src/com/example/flappyBird/Bird.class](/src/com/example/flappyBird/Bird.class) | Java | 15 | 2 | 0 | 17 |
+| [src/com/example/flappyBird/Bird.java](/src/com/example/flappyBird/Bird.java) | Java | 47 | 0 | 22 | 69 |
+| [src/com/example/flappyBird/FlappyBird.class](/src/com/example/flappyBird/FlappyBird.class) | Java | 8 | 0 | 0 | 8 |
+| [src/com/example/flappyBird/FlappyBird.java](/src/com/example/flappyBird/FlappyBird.java) | Java | 9 | 1 | 3 | 13 |
+| [src/com/example/flappyBird/Panel$1.class](/src/com/example/flappyBird/Panel$1.class) | Java | 14 | 0 | 0 | 14 |
+| [src/com/example/flappyBird/Panel$Pipe.class](/src/com/example/flappyBird/Panel$Pipe.class) | Java | 8 | 0 | 0 | 8 |
+| [src/com/example/flappyBird/Panel.class](/src/com/example/flappyBird/Panel.class) | Java | 77 | 0 | 0 | 77 |
+| [src/com/example/flappyBird/Panel.java](/src/com/example/flappyBird/Panel.java) | Java | 144 | 21 | 72 | 237 |
+| [src/com/example/flappyBird/Pipe.java](/src/com/example/flappyBird/Pipe.java) | Java | 0 | 59 | 27 | 86 |
+| [src/com/example/main/Game.class](/src/com/example/main/Game.class) | Java | 17 | 0 | 0 | 17 |
+| [src/com/example/main/Game.java](/src/com/example/main/Game.java) | Java | 25 | 0 | 6 | 31 |
+| [src/com/example/main/Main.class](/src/com/example/main/Main.class) | Java | 10 | 0 | 0 | 10 |
+| [src/com/example/main/Main.java](/src/com/example/main/Main.java) | Java | 9 | 0 | 5 | 14 |
+| [src/com/example/main/Window.class](/src/com/example/main/Window.class) | Java | 27 | 0 | 0 | 27 |
+| [src/com/example/main/Window.java](/src/com/example/main/Window.java) | Java | 23 | 0 | 5 | 28 |
+| [src/com/example/menu/GameItem.class](/src/com/example/menu/GameItem.class) | Java | 9 | 0 | 0 | 9 |
+| [src/com/example/menu/GameItem.java](/src/com/example/menu/GameItem.java) | Java | 17 | 0 | 6 | 23 |
+| [src/com/example/menu/Menu.class](/src/com/example/menu/Menu.class) | Java | 11 | 0 | 0 | 11 |
+| [src/com/example/menu/Menu.java](/src/com/example/menu/Menu.java) | Java | 10 | 0 | 4 | 14 |
+| [src/com/example/menu/Panel$1.class](/src/com/example/menu/Panel$1.class) | Java | 19 | 0 | 0 | 19 |
+| [src/com/example/menu/Panel.class](/src/com/example/menu/Panel.class) | Java | 36 | 0 | 0 | 36 |
+| [src/com/example/menu/Panel.java](/src/com/example/menu/Panel.java) | Java | 72 | 0 | 16 | 88 |
+| [src/com/example/pauseMenu/FuncInt.java](/src/com/example/pauseMenu/FuncInt.java) | Java | 5 | 0 | 1 | 6 |
+| [src/com/example/pauseMenu/MenuOverlay$1.class](/src/com/example/pauseMenu/MenuOverlay$1.class) | Java | 17 | 0 | 0 | 17 |
+| [src/com/example/pauseMenu/MenuOverlay$2.class](/src/com/example/pauseMenu/MenuOverlay$2.class) | Java | 17 | 0 | 0 | 17 |
+| [src/com/example/pauseMenu/MenuOverlay.class](/src/com/example/pauseMenu/MenuOverlay.class) | Java | 44 | 0 | 0 | 44 |
+| [src/com/example/pauseMenu/MenuOverlay.java](/src/com/example/pauseMenu/MenuOverlay.java) | Java | 83 | 2 | 17 | 102 |
+| [src/com/example/pauseMenu/Option.class](/src/com/example/pauseMenu/Option.class) | Java | 13 | 0 | 0 | 13 |
+| [src/com/example/pauseMenu/Option.java](/src/com/example/pauseMenu/Option.java) | Java | 16 | 0 | 5 | 21 |
+| [src/com/example/pauseMenu/funcInt.class](/src/com/example/pauseMenu/funcInt.class) | Java | 3 | 0 | 0 | 3 |
+| [src/com/example/simonGame/Blocks.class](/src/com/example/simonGame/Blocks.class) | Java | 52 | 0 | 0 | 52 |
+| [src/com/example/simonGame/Blocks.java](/src/com/example/simonGame/Blocks.java) | Java | 90 | 9 | 29 | 128 |
+| [src/com/example/simonGame/Panel$1.class](/src/com/example/simonGame/Panel$1.class) | Java | 25 | 0 | 0 | 25 |
+| [src/com/example/simonGame/Panel$2.class](/src/com/example/simonGame/Panel$2.class) | Java | 11 | 0 | 0 | 11 |
+| [src/com/example/simonGame/Panel.class](/src/com/example/simonGame/Panel.class) | Java | 16 | 0 | 0 | 16 |
+| [src/com/example/simonGame/Panel.java](/src/com/example/simonGame/Panel.java) | Java | 58 | 4 | 40 | 102 |
+| [src/com/example/simonGame/SimonGame.class](/src/com/example/simonGame/SimonGame.class) | Java | 14 | 0 | 0 | 14 |
+| [src/com/example/simonGame/SimonGame.java](/src/com/example/simonGame/SimonGame.java) | Java | 9 | 0 | 2 | 11 |
+| [src/com/example/snake/Food.class](/src/com/example/snake/Food.class) | Java | 17 | 0 | 0 | 17 |
+| [src/com/example/snake/Food.java](/src/com/example/snake/Food.java) | Java | 31 | 2 | 14 | 47 |
+| [src/com/example/snake/Panel$1.class](/src/com/example/snake/Panel$1.class) | Java | 11 | 2 | 0 | 13 |
+| [src/com/example/snake/Panel.class](/src/com/example/snake/Panel.class) | Java | 56 | 0 | 0 | 56 |
+| [src/com/example/snake/Panel.java](/src/com/example/snake/Panel.java) | Java | 105 | 0 | 28 | 133 |
+| [src/com/example/snake/Score.class](/src/com/example/snake/Score.class) | Java | 23 | 0 | 0 | 23 |
+| [src/com/example/snake/Score.java](/src/com/example/snake/Score.java) | Java | 25 | 0 | 6 | 31 |
+| [src/com/example/snake/Snake.class](/src/com/example/snake/Snake.class) | Java | 10 | 0 | 0 | 10 |
+| [src/com/example/snake/Snake.java](/src/com/example/snake/Snake.java) | Java | 9 | 0 | 3 | 12 |
+| [src/com/example/snake/SnakeObj.class](/src/com/example/snake/SnakeObj.class) | Java | 43 | 0 | 0 | 43 |
+| [src/com/example/snake/SnakeObj.java](/src/com/example/snake/SnakeObj.java) | Java | 92 | 9 | 24 | 125 |
+
+[Summary](results.md) / Details / [Diff Summary](diff.md) / [Diff Details](diff-details.md)
