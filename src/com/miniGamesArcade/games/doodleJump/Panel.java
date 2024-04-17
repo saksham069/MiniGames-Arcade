@@ -25,9 +25,6 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
     private final double screenHeight, screenWidth;
     private Player player;
     private Deque<Block> blocks; // deque for blocks
-    // private Block block;
-    private int nBlock; // number of total blocks spawned // krne ki zarurat ni hai if needed i'll make
-                        // static field in class
     private final Random random;
     private final double xSpeed = 10;
     private double ySpeed = 0;
@@ -37,9 +34,12 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
     private boolean moveL;
     private final double pY, pWidth, pHeight;
     private double pX;
-    private double bY;
+    private final double bY;
     private int score;
+    private int pastScore;
+    private int scoreCounter;
     private Thread gameThread;
+    private final Object blocksLock = new Object();
     private Thread checkCollisionsThread;
     private final boolean[] paused;
     private final JFrame parentFrame;
@@ -56,6 +56,7 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
         screenWidth = screenSize.getWidth();
 
         score = 0;
+        scoreCounter = 0;
 
         pWidth = 50;
         pHeight = 50;
@@ -68,8 +69,9 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
         blocks = new ArrayDeque<>();
         Block.initCount(); // initialise block or score counter
         blocks.add(new Block(screenWidth / 2 - 100 / 2, bY));
-        blocks.add(new Block(random.nextInt(2 * 200 + 1 - Block.getWidth()) + screenWidth / 2 - 200,
-                bY - Block.getCount() * 100));
+        for (int i = 0; i < 100; i++) {
+            addNewBlock();
+        }
         this.setBackground(Color.BLACK); // cpu utilization fix ***
 
         checkCollisionsThread = new Thread(() -> {
@@ -81,15 +83,18 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
                 }
                 if (paused[0])
                     continue;
-                blocks.forEach((b) -> {
-                    if (b.collider.intersects(player.collider) && ySpeed >= 0) {
-                        double shift = player.collider.getY() + player.collider.getHeight() - b.collider.getY();
-                        blocks.forEach((bb) -> {
-                            bb.setY = bb.collider.getY() + shift;
-                        });
-                        ySpeed = jumpSpeed;
-                    }
-                });
+                synchronized (blocksLock) {
+                    blocks.forEach((b) -> {
+                        if (b.collider.intersects(player.collider) && ySpeed >= 0) {
+                            double shift = player.collider.getY() + player.collider.getHeight() - b.collider.getY();
+                            scoreCounter += shift;
+                            blocks.forEach((bb) -> {
+                                bb.setY = bb.collider.getY() + shift;
+                            });
+                            ySpeed = jumpSpeed;
+                        }
+                    });
+                }
                 if (player.collider.getX() <= screenWidth / 2 - 200 && !moveR) {
                     pX = screenWidth / 2 - 200;
                     moveL = false;
@@ -110,11 +115,18 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
                 if (paused[0])
                     continue;
                 ySpeed += gravity;
-                blocks.forEach((b) -> {
-                    b.setY -= ySpeed;
-                });
-                if ((int) bY - (int) (screenHeight / 2 + 200) > score)
-                    score = (int) bY - (int) (screenHeight / 2 + 200); // score ka dekhta hu abhi
+                scoreCounter -= (int) ySpeed;
+                synchronized (blocksLock) {
+                    blocks.forEach((b) -> {
+                        b.setY -= ySpeed;
+                    });
+                    checkScore(); /////////////
+                    if (score != pastScore && score > 200) {
+                        pastScore = score;
+                        addNewBlock();
+                        blocks.poll();
+                    }
+                }
                 if (moveR)
                     pX += xSpeed;
                 if (moveL)
@@ -181,25 +193,38 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
         super.paintComponent(g);
 
         player.setPos(pX, pY, pWidth, pHeight);
-        blocks.forEach((b) -> {
-            b.collider.setFrame(b.collider.getX(), b.setY, b.collider.getWidth(), b.collider.getHeight());
-        }); // yaha place kiya hai to move at a constant predefined rate
+        synchronized (blocksLock) {
+            blocks.forEach((b) -> {
+                b.collider.setFrame(b.collider.getX(), b.setY, b.collider.getWidth(), b.collider.getHeight());
+            }); // yaha place kiya hai to move at a constant predefined rate
+        }
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.YELLOW);
         g2d.fill(player.frame);
         g2d.setColor(Color.RED);
-        g2d.fill(player.collider);
-        blocks.forEach((b) -> {
-            g2d.fill(b.collider);
-        });
+        synchronized (blocksLock) {
+            blocks.forEach((b) -> {
+                g2d.fill(b.collider);
+            });
+        }
 
         g2d.setColor(Color.GRAY);
         g2d.fillRect(0, 0, (int) screenWidth / 2 - 200, (int) screenHeight);
         g2d.fillRect((int) screenWidth / 2 + 200, 0, (int) screenWidth / 2 - 200, (int) screenHeight);
         g2d.setColor(Color.WHITE);
-        g2d.setFont(new Font("Arial", Font.BOLD, 18)); // set font globally
+        g2d.setFont(new Font("Arial", Font.BOLD, 18));
         String scoreString = "Score: " + score;
         g2d.drawString(scoreString, (int) screenWidth / 2 - g2d.getFontMetrics().stringWidth(scoreString) / 2, 30);
+    }
+
+    void checkScore() {
+        if (scoreCounter > score)
+            score = scoreCounter - scoreCounter % 100;
+    }
+
+    void addNewBlock() {
+        blocks.add(new Block(random.nextInt(2 * 200 + 1 - Block.getWidth()) + screenWidth / 2 - 200,
+                bY - Block.getCount() * 100));
     }
 }
