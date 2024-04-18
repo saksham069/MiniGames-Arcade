@@ -144,7 +144,7 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_ESCAPE:
-                        paused[0] = !paused[0];
+                        paused[0] = true;
                         overlay.setVisible(paused[0]);
                         break;
                     case KeyEvent.VK_RIGHT:

@@ -9,7 +9,7 @@ public abstract class Game implements Runnable {
     protected Thread renderThread;
     static final int FPS = 120;
 
-    public void play() { // panel recreate hota hai ya ni pata ni abhi bhi
+    public void play() {
         Main.window.setPanel(panel);
         panel.requestFocus();
         renderThread.start();

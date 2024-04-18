@@ -24,15 +24,13 @@ public class MenuOverlay extends JWindow {
     final FuncInt RESTART_GAME_TASK;
     final FuncInt HOME_BUTTON_TASK;
 
-    public MenuOverlay(JFrame parent, Game game, boolean[] flipPaused) { // add exactly 2 tasks issmei
-                                                                         // warna, would
-        // throw error
+    public MenuOverlay(JFrame parent, Game game, boolean[] paused) {
         super(parent);
         BG_COLOR = new Color(0, 0, 0, 100);
         WIDTH = 800;
         HEIGHT = 600;
         RESUME_GAME_TASK = () -> {
-            flipPaused[0] = !flipPaused[0];
+            paused[0] = false;
             this.dispose();
         };
         RESTART_GAME_TASK = () -> {
