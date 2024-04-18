@@ -12,7 +12,7 @@ public class SnakeObj {
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); 
 
     //number and size of blocks based on screensize
-    private int blockSize; 
+    private int blockSize=30; 
     private int noOfblocks = (int) (screenSize.getWidth() * screenSize.getHeight()) / (blockSize * blockSize); 
 
     // Array to store x and y-coordinate of each block
@@ -24,7 +24,6 @@ public class SnakeObj {
 
     // Constructor
     SnakeObj() {
-        blockSize=30;
         bodyParts=6;
     }
 

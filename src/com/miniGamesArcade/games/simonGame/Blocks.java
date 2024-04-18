@@ -26,9 +26,12 @@ public class Blocks implements Runnable {
     private boolean gameStarted;
     private int level;
     private Thread thread;
+    private boolean flash;
+    private int temp=0;
 
     Blocks() {
         level = 1;
+        flash=false;
         gameStarted = false;
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         blockWidth = screenSize.width / 4; // One-fourth of the screen width
@@ -76,7 +79,17 @@ public class Blocks implements Runnable {
         }
         g.fillRect(startX + blockWidth, startY + blockHeight, blockWidth, blockHeight);
 
-        g.setColor(Color.BLACK);
+        if (flash){
+            g.setColor(Color.GREEN);
+            temp++;
+            if( temp==50){
+                flash=false;
+                temp=0;
+            }
+        }
+        else {
+            g.setColor(Color.BLACK);
+        }
         g.fillRoundRect(600, 300, 300, 250, 200, 200);
         g.fillRect(startX + blockWidth - blockWidth / 10, startY, blockWidth / 6, blockHeight * 2);
         g.fillRect(startX, startY + blockWidth / 2 - blockWidth / 40, blockWidth * 2, blockHeight / 4);
@@ -86,7 +99,18 @@ public class Blocks implements Runnable {
         g.setStroke(new BasicStroke(200));
         g.drawOval(startX - 100, startY - 100, blockWidth * 2 + 200, blockHeight * 2 + 200);
 
-        g.setColor(Color.BLACK);
+        if (flash){
+            g.setColor(Color.GREEN);
+            temp++;
+            if( temp==50){
+                flash=false;
+                temp=0;
+            }
+        }
+        else {
+            g.setColor(Color.BLACK);
+        }
+        
         g.setStroke(new BasicStroke(10));
         g.drawOval(startX - 100, startY - 100, blockWidth * 2 + 200, blockHeight * 2 + 200);
 
@@ -94,11 +118,13 @@ public class Blocks implements Runnable {
         g.setFont(new Font("Arial", 2, 56));
 
         if (gameOver) {
-            g.drawString(":/", blockWidth * 2 - 50, blockHeight * 2);
+            // g.drawString("Oops \n you out.", blockWidth * 2 - 100, blockHeight * 2);
+            g.drawString("Oops, ", blockWidth * 2 - 100, blockHeight * 2 -20);
+            g.drawString("you out.", blockWidth * 2 - 100, blockHeight * 2 + 50); // Assuming 30 pixels vertical distance between lines
         }
 
         else {
-            g.drawString(indexPattern + "/" + pattern.size(), blockWidth * 2 - 50, blockHeight * 2);
+            g.drawString("Level:"+ level, blockWidth * 2 - 100 , blockHeight * 2);
         }
 
     }
@@ -154,6 +180,7 @@ public class Blocks implements Runnable {
                     creatingPattern = true;
                     indexPattern = 0;
                     dark = 2;
+                    flash=true;
                     level++;
                 }
                 }

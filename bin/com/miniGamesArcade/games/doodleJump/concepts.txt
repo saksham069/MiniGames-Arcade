@@ -1,4 +1,0 @@
-see thread scheduler for game
-are java ke threads running at the same time / can it do that , (see in the expect of your game)
-or just interleaving( context switching)
-

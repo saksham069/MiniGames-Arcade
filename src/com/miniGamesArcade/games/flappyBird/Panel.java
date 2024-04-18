@@ -2,7 +2,8 @@ package com.miniGamesArcade.games.flappyBird;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList; //to store all the pipes
+import java.util.ArrayList;
+import javax.swing.JLabel;
 import java.util.Random;
 import javax.swing.*;
 
@@ -10,61 +11,66 @@ import com.miniGamesArcade.pauseMenu.MenuOverlay;
 
 class Panel extends JPanel {
 
-    private int velocityX = -4; // moves pipes to the left speed
-    // private int velocityY = 0;
+    private int velocityX = -4;
     private final int gravity = 1;
-
-    // Images : these 4 variables will store our image objects
-    Image backgroundImg;
-
-    Image topPipeImg;
-    Image bottomPipeImg;
-
-    int boardWidth = 1600;
-    int boardHeight = 850;
-
-    Bird bird;
-
-    // Pipes
-    int xPipe = boardWidth;
-    int yPipe = 0;
-    int widthPipe = 64;
-    int heightPipe = 512;
 
     private final boolean[] paused;
     private final JFrame parentFrame;
     private MenuOverlay overlay;
 
-    class Pipe {
-        int x = xPipe;
-        int y = yPipe;
-        int width = widthPipe;
-        int height = heightPipe;
-        Image img;
-        boolean passed = false; // to check if our flappy bird has passed the pipe yet?
+    private Image backgroundImg;
+    private Image topPipeImg;
+    private Image bottomPipeImg;
 
-        Pipe(Image img) {
-            this.img = img;
-        }
-    }
+    private int boardWidth;
+    private int boardHeight;
 
-    ArrayList<Pipe> pipes;
-    Random random = new Random();
+    Bird bird;
+    Random random;
 
     Thread gameLoopThread;
     Thread placePipesThread;
 
-    boolean gameOver = false;
-    double score = 0;
+    private boolean gameOver;
+    private double score; 
+
+    static ArrayList<Pipe> pipes = new ArrayList<>();
+
+    private JLabel startJLabel;
 
     Panel() {
+        boardWidth = 1600;
+        boardHeight = 850;
+        gameOver = false;
+
+        score = 0;
+        random = new Random();
+        setBackground(Color.gray);
+        setFocusable(true);
+        
+       
+   
         // PAUSE MENU
         paused = new boolean[] { false };
         parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         overlay = new MenuOverlay(parentFrame, new FlappyBird(), paused);
+
+        backgroundImg = new ImageIcon(getClass().getResource("flappybirdbg.png")).getImage();
+        topPipeImg = new ImageIcon(getClass().getResource("toppipe.png")).getImage();
+        bottomPipeImg = new ImageIcon(getClass().getResource("bottompipe.png")).getImage();
+
+        bird = new Bird();
+
         addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    paused[0] = !paused[0];
+                        overlay.setVisible(paused[0]);
+                }
+                startGame();
+
+                
 
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                     bird.changeBirdVelocity();
@@ -81,147 +87,119 @@ class Panel extends JPanel {
             public void keyReleased(KeyEvent e) {
             }
         });
+        initializeThreads();
 
-        setBackground(Color.gray);
-        setFocusable(true); // make sure that our panel class takes in the key events
+        // Add start label
+        startJLabel = new JLabel("Press any key to start the game");
+        startJLabel.setForeground(Color.white);
+        startJLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        startJLabel.setBounds(500, 400, 300, 30);
+        add(startJLabel);
 
-        backgroundImg = new ImageIcon(getClass().getResource("flappybirdbg.png")).getImage();
+    }
 
-        topPipeImg = new ImageIcon(getClass().getResource("toppipe.png")).getImage();
-        bottomPipeImg = new ImageIcon(getClass().getResource("bottompipe.png")).getImage();
 
-        bird = new Bird();
-        pipes = new ArrayList<Pipe>();
-
+    private void initializeThreads() {
         gameLoopThread = new Thread(() -> {
-
             while (true) {
                 move();
-                // repaint();
                 try {
-                    Thread.sleep(1000 / 40);// Adjusted sleep duration for smoother animation (40 frames per second)
+                    Thread.sleep(1000 / 40);
                 } catch (InterruptedException e) {
-                    System.out.println("Game loop thread interrupted.");
-
+                    // System.out.println("Game loop thread interrupted.");
                 }
             }
-
         });
 
         placePipesThread = new Thread(() -> {
-
             while (true) {
                 pipesPlaced();
                 try {
-                    Thread.sleep(1500); // Adjusted sleep duration for placing pipes every 1.5 second
+                    Thread.sleep(1500);
                 } catch (InterruptedException e) {
-                    System.out.println("Place pipes thread interrupted.");
+                    // System.out.println("Place pipes thread interrupted.");
                 }
             }
         });
-        gameLoopThread.start();
-        placePipesThread.start();
+
+    }
+
+    private void startGame() {
+
+        if (startJLabel != null) {
+            remove(startJLabel);
+            startJLabel = null;
+        
+        }
+        if (gameLoopThread != null && !gameLoopThread.isAlive()) {
+            gameLoopThread.start();
+        }
+
+        if (placePipesThread != null && !placePipesThread.isAlive()) {
+            placePipesThread.start();
+        }
 
     }
 
     public void move() {
-
-        // Check if game over
         if (gameOver) {
             gameLoopThread.interrupt();
             placePipesThread.interrupt();
-
             return;
         }
-        // bird
+
         bird.birdMove();
         for (int i = 0; i < pipes.size(); i++) {
             Pipe pipe = pipes.get(i);
-            pipe.x += velocityX;
+            pipe.setX(pipe.getX() + velocityX);
 
             if (collision(pipe)) {
                 gameOver = true;
-                return; // no need to continue checking for collision if game over
+                return;
             }
 
-            if (!pipe.passed && bird.getBirdX() > pipe.x + pipe.width) { // if the bird passes the rigt side of the
-                                                                         // pipe, pipe.x starts on the left side and
-                                                                         // pipe.width gives us the right side of the
-                                                                         // pipe
-                pipe.passed = true;
-                score += 0.5; // since there are 2 pipes, to count it as 1 i have splitted into half
+            if (!pipe.isPassed() && bird.getBirdX() > pipe.getX() + pipe.getWidth()) {
+                pipe.setPassed(true);
+                score += 0.5;
                 System.out.println("Score:" + score);
             }
-
         }
 
-        // temp sol
-        if (bird.getBirdY() > boardHeight) { // if bird goes down
+        if (bird.getBirdY() > boardHeight) {
             gameOver = true;
         }
-
     }
 
     public boolean collision(Pipe b) {
         Rectangle birdRect = new Rectangle(bird.getBirdX(), bird.getBirdY(), bird.getBirdWidth(), bird.getBirdHeight());
-        Rectangle pipeRect = new Rectangle(b.x, b.y, b.width, b.height);
+        Rectangle pipeRect = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
         return birdRect.intersects(pipeRect);
     }
 
     public void pipesPlaced() {
-
         if (gameOver) {
             return;
         }
+        
 
-        // (0-1)*heightPipe/2 -> (0-256)
-        // 128
-        // 0-128-(0-256) --> 1/4 heightPipe -> 3/4 heightPipe
-
-        int randomPipeY = (int) (yPipe - heightPipe / 4 - Math.random() * (heightPipe / 2));
-        int openingSpace = boardHeight / 4; // we need some space for the opening so that bird can fly through
-
-        // Top pipe
         Pipe topPipe = new Pipe(topPipeImg);
-        topPipe.y = randomPipeY;
-        pipes.add(topPipe);
-
-        // Bottom pipe
-        Pipe bottomPipe = new Pipe(bottomPipeImg);
-
-        // since x y start at the top left corner
-        // top pipe start + bottom of the top pipe+ opening space for bird
-        bottomPipe.y = topPipe.y + heightPipe + openingSpace; // by default the pipe y is zero so i.e top of the screen,
-                                                              // we nned to shift it down
-        pipes.add(bottomPipe);
-
+        topPipe.pipesPlaced(boardWidth, 0, 64, 512, boardHeight, topPipeImg, bottomPipeImg);
     }
 
     public void paintComponent(Graphics g) {
-
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        // background
         g2d.drawImage(backgroundImg, 1, 1, 1600, 850, null);
-
-        // bird
-
         bird.draw(g2d);
 
-        // pipes
         for (int i = 0; i < pipes.size(); i++) {
             Pipe pipe = pipes.get(i);
-
-            g2d.drawImage(pipe.img, pipe.x, pipe.y, pipe.width, pipe.height, null);
-
-            // Draw bounding box around pipe
-            g2d.setColor(Color.RED); // Set color to red for the bounding box
-            g2d.drawRect(pipe.x, pipe.y, pipe.width, pipe.height); // Draw bounding box
-
+            g2d.drawImage(pipe.getImg(), pipe.getX(), pipe.getY(), pipe.getWidth(), pipe.getHeight(), null);
+           // g2d.setColor(Color.white);
+            //g2d.drawRect(pipe.getX(), pipe.getY(), pipe.getWidth(), pipe.getHeight());
         }
 
-        // score
         g2d.setColor(Color.white);
         g2d.setFont(new Font("Arial", Font.PLAIN, 32));
         if (gameOver) {
@@ -230,7 +208,4 @@ class Panel extends JPanel {
             g2d.drawString("Score: " + String.valueOf((int) score), 10, 35);
         }
     }
-
 }
-
-// Gravity is a change in velocity over time
