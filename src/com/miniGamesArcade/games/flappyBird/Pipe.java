@@ -1,85 +1,90 @@
-// package com.miniGamesArcade.flappyBird;
-// import java.awt.*;
-// import java.awt.event.*;
-// import java.util.ArrayList; //to store all the pipes
-// import java.util.Random;
-// import javax.swing.*;
+package com.miniGamesArcade.games.flappyBird;
 
-// public class Pipe {
-    
-//     private int boardWidth;
-//     private int boardHeight;
-//     private int xPipe;
-//     private int yPipe;
-//     private int widthPipe;
-//     private int heightPipe;
-//     private Image topPipeImg;
-//     private Image bottomPipeImg;
-    
-//     boolean passed ;
-    
+import java.awt.Image;
 
+public class Pipe {
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+    private Image img;
+    private boolean passed;
 
-   
-//     Image img;
+    public Pipe(Image img) {
+        this.img = img;
+    }
 
-//     Pipe(){
-//         boardWidth = 930; 
-//     boardHeight = 850;  
-//     xPipe = boardWidth;
-//     yPipe =0;
-//     widthPipe = 64;
-//     heightPipe = 512;
-//     passed = false;
-//     }
+    public void pipesPlaced(int xPipe, int yPipe, int widthPipe, int heightPipe, int boardHeight, Image topPipeImg, Image bottomPipeImg) {
+        int randomPipeY = (int) (yPipe - heightPipe / 4 - Math.random() * (heightPipe / 2));
+        int openingSpace = boardHeight / 4;
 
-//     Pipe(int value) {
-//     if (value==1){
-//         topPipeImg = new ImageIcon(getClass().getResource("toppipe.png")).getImage();
-//     }else{
-//         bottomPipeImg = new ImageIcon(getClass().getResource("bottompipe.png")).getImage();
-//     }
+        // Top pipe
+        x = xPipe;
+        y = randomPipeY;
+        width = widthPipe;
+        height = heightPipe;
+        passed = false;
+        img = topPipeImg;
 
-    
-//     boardWidth = 930; 
-//     boardHeight = 850;  
-//     xPipe = boardWidth;
-//     yPipe =0;
-//     widthPipe = 64;
-//     heightPipe = 512;
-//     passed = false; // to check if our flappy bird has passed the pipe yet?
-    
-//     }
+        // Bottom pipe
+        Pipe bottomPipe = new Pipe(bottomPipeImg);
+        bottomPipe.setX(xPipe);
+        bottomPipe.setY(y + height + openingSpace);
+        bottomPipe.setWidth(widthPipe);
+        bottomPipe.setHeight(heightPipe);
+        bottomPipe.setPassed(false);
 
-    
+        // Add pipes to the list
+        Panel.pipes.add(this);
+        Panel.pipes.add(bottomPipe);
+    }
 
+    // Getters and setters for private fields
+    public int getX() {
+        return x;
+    }
 
+    public void setX(int x) {
+        this.x = x;
+    }
 
-//     public int getPipeY(){
-//         return yPipe;
-//     }
+    public int getY() {
+        return y;
+    }
 
-//     public void setPipeY(int value){
-//         yPipe=value;
-//     }
+    public void setY(int y) {
+        this.y = y;
+    }
 
-//     public int getPipeX(){
-//         return xPipe;
-//     }
+    public int getWidth() {
+        return width;
+    }
 
-//     public void setPipeX(int value){
-//         xPipe+=value;
-//     }
+    public void setWidth(int width) {
+        this.width = width;
+    }
 
-//     public int getPipeWidth(){
-//         return widthPipe;
-//     }
+    public int getHeight() {
+        return height;
+    }
 
-//     public int getPipeHeight(){
-//         return heightPipe;
-//     }
+    public void setHeight(int height) {
+        this.height = height;
+    }
 
-    
+    public Image getImg() {
+        return img;
+    }
 
+    public void setImg(Image img) {
+        this.img = img;
+    }
 
-// }
+    public boolean isPassed() {
+        return passed;
+    }
+
+    public void setPassed(boolean passed) {
+        this.passed = passed;
+    }
+}

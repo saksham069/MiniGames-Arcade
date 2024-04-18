@@ -77,6 +77,9 @@ public class Blocks implements Runnable {
         g.fillRect(startX + blockWidth, startY + blockHeight, blockWidth, blockHeight);
 
         g.setColor(Color.BLACK);
+        // if(creatingPattern){
+        //     g.setColor(Color.CYAN);
+        // }
         g.fillRoundRect(600, 300, 300, 250, 200, 200);
         g.fillRect(startX + blockWidth - blockWidth / 10, startY, blockWidth / 6, blockHeight * 2);
         g.fillRect(startX, startY + blockWidth / 2 - blockWidth / 40, blockWidth * 2, blockHeight / 4);
@@ -94,11 +97,13 @@ public class Blocks implements Runnable {
         g.setFont(new Font("Arial", 2, 56));
 
         if (gameOver) {
-            g.drawString(":/", blockWidth * 2 - 50, blockHeight * 2);
+            // g.drawString("Oops \n you out.", blockWidth * 2 - 100, blockHeight * 2);
+            g.drawString("Oops, ", blockWidth * 2 - 100, blockHeight * 2 -20);
+            g.drawString("you out.", blockWidth * 2 - 100, blockHeight * 2 + 50); // Assuming 30 pixels vertical distance between lines
         }
 
         else {
-            g.drawString(indexPattern + "/" + pattern.size(), blockWidth * 2 - 50, blockHeight * 2);
+            g.drawString("Level:"+ level, blockWidth * 2 - 100 , blockHeight * 2);
         }
 
     }

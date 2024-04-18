@@ -34,8 +34,8 @@ class Bird {
 
     public void draw(Graphics2D g2d){
         g2d.drawImage(birdImg, birdX, birdY, birdWidth, birdHeight, null);
-        g2d.setColor(Color.RED); // Set color to red for the bounding box
-        g2d.drawRect(birdX, birdY, birdWidth, birdHeight); // Draw bounding box
+        //g2d.setColor(Color.RED); // Set color to red for the bounding box
+        //g2d.drawRect(birdX, birdY, birdWidth, birdHeight); // Draw bounding box
 
     }
 

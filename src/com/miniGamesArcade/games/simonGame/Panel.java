@@ -51,6 +51,11 @@ public class Panel extends JPanel {
 
             @Override
             public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    paused[0] = !paused[0];
+                    overlay.setVisible(paused[0]);
+                }
+
                 if (!block.getgameStarted()) { // Start the game only if it hasn't started yet
                     block.start(); // Start the game
                     block.setgameStarted(true); // Update gameStarted flag
