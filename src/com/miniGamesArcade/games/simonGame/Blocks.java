@@ -26,12 +26,9 @@ public class Blocks implements Runnable {
     private boolean gameStarted;
     private int level;
     private Thread thread;
-    private boolean flash;
-    private int temp=0;
 
     Blocks() {
         level = 1;
-        flash=false;
         gameStarted = false;
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         blockWidth = screenSize.width / 4; // One-fourth of the screen width
@@ -79,17 +76,10 @@ public class Blocks implements Runnable {
         }
         g.fillRect(startX + blockWidth, startY + blockHeight, blockWidth, blockHeight);
 
-        if (flash){
-            g.setColor(Color.GREEN);
-            temp++;
-            if( temp==50){
-                flash=false;
-                temp=0;
-            }
-        }
-        else {
-            g.setColor(Color.BLACK);
-        }
+        g.setColor(Color.BLACK);
+        // if(creatingPattern){
+        //     g.setColor(Color.CYAN);
+        // }
         g.fillRoundRect(600, 300, 300, 250, 200, 200);
         g.fillRect(startX + blockWidth - blockWidth / 10, startY, blockWidth / 6, blockHeight * 2);
         g.fillRect(startX, startY + blockWidth / 2 - blockWidth / 40, blockWidth * 2, blockHeight / 4);
@@ -99,18 +89,7 @@ public class Blocks implements Runnable {
         g.setStroke(new BasicStroke(200));
         g.drawOval(startX - 100, startY - 100, blockWidth * 2 + 200, blockHeight * 2 + 200);
 
-        if (flash){
-            g.setColor(Color.GREEN);
-            temp++;
-            if( temp==50){
-                flash=false;
-                temp=0;
-            }
-        }
-        else {
-            g.setColor(Color.BLACK);
-        }
-        
+        g.setColor(Color.BLACK);
         g.setStroke(new BasicStroke(10));
         g.drawOval(startX - 100, startY - 100, blockWidth * 2 + 200, blockHeight * 2 + 200);
 
@@ -180,7 +159,6 @@ public class Blocks implements Runnable {
                     creatingPattern = true;
                     indexPattern = 0;
                     dark = 2;
-                    flash=true;
                     level++;
                 }
                 }

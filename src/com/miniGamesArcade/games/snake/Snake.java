@@ -1,5 +1,7 @@
 package com.miniGamesArcade.games.snake;
 
+import javax.swing.ImageIcon;
+
 import com.miniGamesArcade.games.Game;
 
 // Snake class representing the Snake game, extending the Game class
@@ -15,5 +17,9 @@ public class Snake extends Game {
 
         // Call the play method from the parent class
         super.play(); 
+    }
+
+    {
+        super.icon = new ImageIcon(getClass().getResource("res/snake.jpg")).getImage();
     }
 }

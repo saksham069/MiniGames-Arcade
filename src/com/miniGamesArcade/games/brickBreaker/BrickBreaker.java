@@ -1,5 +1,7 @@
 package com.miniGamesArcade.games.brickBreaker;
 
+import javax.swing.ImageIcon;
+
 import com.miniGamesArcade.games.Game;
 
 // BrickBreaker class representing the BrickBreaker game, extending the Game class
@@ -16,5 +18,9 @@ public class BrickBreaker extends Game {
 
         // Call the play method from the parent class
         super.play();
+    }
+
+    {
+        super.icon = new ImageIcon(getClass().getResource("res/brickBreaker.jpg")).getImage();
     }
 }

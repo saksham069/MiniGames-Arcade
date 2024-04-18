@@ -18,9 +18,11 @@ public class Window {
     }
 
     public void setPanel(JPanel jPanel) {
+
+        jFrame.getContentPane().removeAll();
         jFrame.remove(this.panel);
         this.panel = jPanel;
-        jFrame.add(this.panel);
+        jFrame.getContentPane().add(this.panel);
         jFrame.revalidate();
         jFrame.repaint();
     }
