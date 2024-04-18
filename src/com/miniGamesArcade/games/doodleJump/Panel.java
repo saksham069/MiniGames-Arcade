@@ -120,7 +120,7 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
                     blocks.forEach((b) -> {
                         b.setY -= ySpeed;
                     });
-                    checkScore(); /////////////
+                    checkScore(); 
                     if (score != pastScore && score > 200) {
                         pastScore = score;
                         addNewBlock();
