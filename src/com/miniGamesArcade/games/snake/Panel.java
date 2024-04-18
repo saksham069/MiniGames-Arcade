@@ -30,7 +30,7 @@ public class Panel extends JPanel {
     // Getting screen size (using final to prevent accidental change)
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-    // Declaring variables
+    // Declaring variables for pause menu
     private final boolean[] paused;
     private final JFrame parentFrame;
     private MenuOverlay overlay;
