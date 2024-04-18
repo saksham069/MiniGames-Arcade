@@ -25,7 +25,7 @@ public class MenuOverlay extends JWindow {
     final FuncInt HOME_BUTTON_TASK;
 
     public MenuOverlay(JFrame parent, Game game, boolean[] flipPaused) { // add exactly 2 tasks issmei
-                                                                                     // warna, would
+                                                                         // warna, would
         // throw error
         super(parent);
         BG_COLOR = new Color(0, 0, 0, 100);
@@ -44,9 +44,12 @@ public class MenuOverlay extends JWindow {
             this.dispose();
         };
         OPTIONS = new ArrayList<Option>();
-        OPTIONS.add(new Option(WIDTH / 4 - 50, HEIGHT / 2 - 50, 100, 100, RESUME_GAME_TASK));
-        OPTIONS.add(new Option(2 * WIDTH / 4 - 50, HEIGHT / 2 - 50, 100, 100, RESTART_GAME_TASK));
-        OPTIONS.add(new Option(3 * WIDTH / 4 - 50, HEIGHT / 2 - 50, 100, 100, HOME_BUTTON_TASK));
+        OPTIONS.add(new Option(WIDTH / 4 - 50, HEIGHT / 2 - 50, 100, 100, RESUME_GAME_TASK,
+                "res/play.png"));
+        OPTIONS.add(new Option(2 * WIDTH / 4 - 50, HEIGHT / 2 - 50, 100, 100, RESTART_GAME_TASK,
+                "res/restart.png"));
+        OPTIONS.add(new Option(3 * WIDTH / 4 - 50, HEIGHT / 2 - 50, 100, 100, HOME_BUTTON_TASK,
+                "res/home.png"));
 
         JPanel contentPane = new JPanel() {
 
@@ -55,9 +58,11 @@ public class MenuOverlay extends JWindow {
                 super.paintComponent(g);
 
                 Graphics2D g2d = (Graphics2D) g;
-                g2d.setColor(Color.RED);
+                g2d.setColor(Color.black);
                 OPTIONS.forEach((o) -> {
-                    g2d.fill(o.getSelectionArea());
+                    g2d.draw(o.getSelectionArea());
+                    g2d.drawImage(o.getIcon(), o.getSelectionArea().x + 10, o.getSelectionArea().y + 10,
+                            o.getSelectionArea().width - 20, o.getSelectionArea().height - 20, null);
                 });
 
                 g2d.dispose();
