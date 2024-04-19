@@ -37,7 +37,7 @@ public class Panel extends JPanel {
     private int indexPattern;
     private Random random;
     private ArrayList<Integer> pattern;
-    private boolean creatingPattern = true;
+    private boolean creatingPattern;
 
     private boolean gameStarted;
 
@@ -58,6 +58,7 @@ public class Panel extends JPanel {
         // to store sequence of flashed blocks
         pattern = new ArrayList<Integer>();
         gameStarted = false;
+        creatingPattern = true;
 
         // to run block flashing logic
         thread = new Thread(this::run);
@@ -164,7 +165,13 @@ public class Panel extends JPanel {
 
     }
 
-    public void start() {
+
+    /**used to reset the game state and 
+     * ensure that the game starts in a consistent state whenever a new game
+     *  is initiated or the current game is restarted */
+
+    public void start() 
+     {
 
         // random generator and pattern list
         random = new Random();
@@ -175,6 +182,8 @@ public class Panel extends JPanel {
     }
 
     public void run() {
+
+        // runs until the game is over 
         while (!block.getGameOver()) {
             try {
                 Thread.sleep(30);

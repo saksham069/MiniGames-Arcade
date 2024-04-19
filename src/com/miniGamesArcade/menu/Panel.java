@@ -85,7 +85,8 @@ class Panel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         games.forEach((gm) -> {
-            g2d.fill(gm.getRect());
+            g2d.drawImage(gm.game.getIcon(), gm.getRect().x, gm.getRect().y, gm.getRect().width, gm.getRect().height,
+                    null);
         });
         repaint();
     }
