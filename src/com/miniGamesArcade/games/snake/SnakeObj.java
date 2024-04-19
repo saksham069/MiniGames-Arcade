@@ -13,11 +13,11 @@ public class SnakeObj {
 
     //number and size of blocks based on screensize
     private int blockSize; 
-    private int noOfblocks = (int) (screenSize.getWidth() * screenSize.getHeight()) / (blockSize * blockSize); 
+    private int noOfblocks; 
 
     // Array to store x and y-coordinate of each block
-    private int x[] = new int[noOfblocks];
-    private int y[] = new int[noOfblocks]; 
+    private int[] x;
+    private int[] y; 
 
     // Initial number of body parts
     private int bodyParts; 
@@ -26,6 +26,9 @@ public class SnakeObj {
     SnakeObj() {
         blockSize=30;
         bodyParts=6;
+        noOfblocks = (int) (screenSize.getWidth() * screenSize.getHeight()) / (blockSize * blockSize);
+        x = new int[noOfblocks];
+        y = new int[noOfblocks];
     }
 
     // Method to draw the snake on the screen
