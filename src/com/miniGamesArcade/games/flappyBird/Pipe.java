@@ -1,85 +1,95 @@
-// package com.miniGamesArcade.flappyBird;
-// import java.awt.*;
-// import java.awt.event.*;
-// import java.util.ArrayList; //to store all the pipes
-// import java.util.Random;
-// import javax.swing.*;
+package com.miniGamesArcade.games.flappyBird;
 
-// public class Pipe {
-    
-//     private int boardWidth;
-//     private int boardHeight;
-//     private int xPipe;
-//     private int yPipe;
-//     private int widthPipe;
-//     private int heightPipe;
-//     private Image topPipeImg;
-//     private Image bottomPipeImg;
-    
-//     boolean passed ;
-    
+import java.awt.Image;
 
+public class Pipe {
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+    private Image img;
+    private boolean passed; // Flag indicating if the bird has passed through the pipe opening
 
-   
-//     Image img;
+    public Pipe(Image img) {
+        this.img = img;
+    }
 
-//     Pipe(){
-//         boardWidth = 930; 
-//     boardHeight = 850;  
-//     xPipe = boardWidth;
-//     yPipe =0;
-//     widthPipe = 64;
-//     heightPipe = 512;
-//     passed = false;
-//     }
+    // Method to place pipes
+    public void pipesPlaced(int xPipe, int yPipe, int widthPipe, int heightPipe, int boardHeight, Image topPipeImg,
+            Image bottomPipeImg) {
 
-//     Pipe(int value) {
-//     if (value==1){
-//         topPipeImg = new ImageIcon(getClass().getResource("toppipe.png")).getImage();
-//     }else{
-//         bottomPipeImg = new ImageIcon(getClass().getResource("bottompipe.png")).getImage();
-//     }
+        //// Calculate a random Y-coordinate for the top pipe's position within the
+        //// visible area of the screen
+        int randomPipeY = (int) (yPipe - heightPipe / 4 - Math.random() * (heightPipe / 2));
+        int openingSpace = boardHeight / 4; // space between top and bottom pipe
 
-    
-//     boardWidth = 930; 
-//     boardHeight = 850;  
-//     xPipe = boardWidth;
-//     yPipe =0;
-//     widthPipe = 64;
-//     heightPipe = 512;
-//     passed = false; // to check if our flappy bird has passed the pipe yet?
-    
-//     }
+        // Top pipe
+        x = xPipe;
+        y = randomPipeY;
+        width = widthPipe;
+        height = heightPipe;
+        passed = false;
+        img = topPipeImg;
 
-    
+        // Bottom pipe
+        Pipe bottomPipe = new Pipe(bottomPipeImg);
+        bottomPipe.setX(xPipe);
+        bottomPipe.setY(y + height + openingSpace); // Set Y-coordinate below the top pipe and the opening space
+        bottomPipe.setWidth(widthPipe);
+        bottomPipe.setHeight(heightPipe);
+        bottomPipe.setPassed(false);
 
+        // Add both top and bottom pipes to the list of pipes
+        Panel.pipes.add(this); // Add top pipe
+        Panel.pipes.add(bottomPipe); // Add bottom pipe
+    }
 
+    // Getters and setters for private fields
+    public int getX() {
+        return x;
+    }
 
-//     public int getPipeY(){
-//         return yPipe;
-//     }
+    public void setX(int x) {
+        this.x = x;
+    }
 
-//     public void setPipeY(int value){
-//         yPipe=value;
-//     }
+    public int getY() {
+        return y;
+    }
 
-//     public int getPipeX(){
-//         return xPipe;
-//     }
+    public void setY(int y) {
+        this.y = y;
+    }
 
-//     public void setPipeX(int value){
-//         xPipe+=value;
-//     }
+    public int getWidth() {
+        return width;
+    }
 
-//     public int getPipeWidth(){
-//         return widthPipe;
-//     }
+    public void setWidth(int width) {
+        this.width = width;
+    }
 
-//     public int getPipeHeight(){
-//         return heightPipe;
-//     }
+    public int getHeight() {
+        return height;
+    }
 
-    
+    public void setHeight(int height) {
+        this.height = height;
+    }
 
+    public Image getImg() {
+        return img;
+    }
 
-// }
+    public void setImg(Image img) {
+        this.img = img;
+    }
+
+    public boolean isPassed() {
+        return passed;
+    }
+
+    public void setPassed(boolean passed) {
+        this.passed = passed;
+    }
+}
