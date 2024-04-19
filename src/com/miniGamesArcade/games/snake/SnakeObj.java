@@ -24,7 +24,6 @@ public class SnakeObj {
 
     // Constructor
     SnakeObj() {
-        blockSize=30;
         bodyParts=6;
         noOfblocks = (int) (screenSize.getWidth() * screenSize.getHeight()) / (blockSize * blockSize);
         x = new int[noOfblocks];
