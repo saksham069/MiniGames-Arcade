@@ -8,15 +8,20 @@ public class Pipe {
     private int width;
     private int height;
     private Image img;
-    private boolean passed;
+    private boolean passed; // Flag indicating if the bird has passed through the pipe opening
 
     public Pipe(Image img) {
         this.img = img;
     }
 
-    public void pipesPlaced(int xPipe, int yPipe, int widthPipe, int heightPipe, int boardHeight, Image topPipeImg, Image bottomPipeImg) {
+    // Method to place pipes
+    public void pipesPlaced(int xPipe, int yPipe, int widthPipe, int heightPipe, int boardHeight, Image topPipeImg,
+            Image bottomPipeImg) {
+
+        //// Calculate a random Y-coordinate for the top pipe's position within the
+        //// visible area of the screen
         int randomPipeY = (int) (yPipe - heightPipe / 4 - Math.random() * (heightPipe / 2));
-        int openingSpace = boardHeight / 4;
+        int openingSpace = boardHeight / 4; // space between top and bottom pipe
 
         // Top pipe
         x = xPipe;
@@ -29,14 +34,14 @@ public class Pipe {
         // Bottom pipe
         Pipe bottomPipe = new Pipe(bottomPipeImg);
         bottomPipe.setX(xPipe);
-        bottomPipe.setY(y + height + openingSpace);
+        bottomPipe.setY(y + height + openingSpace); // Set Y-coordinate below the top pipe and the opening space
         bottomPipe.setWidth(widthPipe);
         bottomPipe.setHeight(heightPipe);
         bottomPipe.setPassed(false);
 
-        // Add pipes to the list
-        Panel.pipes.add(this);
-        Panel.pipes.add(bottomPipe);
+        // Add both top and bottom pipes to the list of pipes
+        Panel.pipes.add(this); // Add top pipe
+        Panel.pipes.add(bottomPipe); // Add bottom pipe
     }
 
     // Getters and setters for private fields

@@ -6,29 +6,40 @@ import javax.swing.ImageIcon;
 
 
 class Bird {
+
+    // bird properties
     private int birdWidth;
     private int birdHeight;
     private int birdX;
     private int birdY;
     private Image birdImg;
       
-   
+    // bird movement properties
     private int velocityY;
     private int gravity;
     
 
     Image img;
 
+    /*
+      Constructs a new Bird object.
+      Initializes the bird's image, size, and initial position.
+     */
     Bird() {
-
+        //load bird image
         birdImg = new ImageIcon(getClass().getResource("flappybird.png")).getImage();
+
+        //set bird dimensions 
         birdWidth = 34;
         birdHeight = 24;
+
+        //initial bird position
         birdX = 650;
         birdY = 300;
-
-       velocityY = 0;
-       gravity = 1;
+        
+        // initial velocity and gravity
+        velocityY = 0;
+        gravity = 1;
 
     }
 
@@ -42,10 +53,14 @@ class Bird {
     public void birdMove(){
         velocityY += gravity;
         birdY += velocityY;
+
+        // Ensure the bird stays within the screen boundaries
         birdY = Math.max(birdY, 0); // the bird will stop after the screen is finished
     }
 
+    
 
+    //getters 
     public int getBirdY(){
         return birdY;
     }

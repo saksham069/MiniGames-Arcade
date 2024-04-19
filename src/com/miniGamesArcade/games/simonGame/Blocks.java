@@ -1,10 +1,9 @@
 package com.miniGamesArcade.games.simonGame;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Random;
 
-public class Blocks implements Runnable {
+
+public class Blocks {
 
     Dimension screenSize;
 
@@ -17,19 +16,21 @@ public class Blocks implements Runnable {
     private int startY;
 
     // for block flashing and timing
-    private int flashed = 0, ticks, dark;
-    private int indexPattern;
-    private Random random;
-    private ArrayList<Integer> pattern;
-    private boolean creatingPattern = true;
+    private int flashed = 0;
+
+    private boolean flash;
+
     private boolean gameOver;
-    private boolean gameStarted;
+
     private int level;
-    private Thread thread;
+
+    private int temp;
 
     Blocks() {
         level = 1;
-        gameStarted = false;
+
+        temp = 0;
+
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         blockWidth = screenSize.width / 4; // One-fourth of the screen width
         blockHeight = screenSize.height / 4; // One-fourth of the screen height
@@ -38,10 +39,6 @@ public class Blocks implements Runnable {
         startX = (screenSize.width - blockWidth * 2) / 2; // Half the remaining space
         startY = (screenSize.height - blockHeight * 2) / 2; // Half the remaining space
         flashed = 0;
-
-        // to run block flashing logic
-        thread = new Thread(this);
-        thread.start();
 
     }
 
@@ -76,11 +73,20 @@ public class Blocks implements Runnable {
         }
         g.fillRect(startX + blockWidth, startY + blockHeight, blockWidth, blockHeight);
 
-        g.setColor(Color.BLACK);
-        // if(creatingPattern){
-        //     g.setColor(Color.CYAN);
-        // }
+        if (flash) {
+            g.setColor(Color.CYAN);
+            temp++;
+
+            if (temp == 50) {
+                flash = false;
+                temp = 0;
+            }
+        } else {
+            g.setColor(Color.black);
+        }
+
         g.fillRoundRect(600, 300, 300, 250, 200, 200);
+
         g.fillRect(startX + blockWidth - blockWidth / 10, startY, blockWidth / 6, blockHeight * 2);
         g.fillRect(startX, startY + blockWidth / 2 - blockWidth / 40, blockWidth * 2, blockHeight / 4);
 
@@ -97,74 +103,14 @@ public class Blocks implements Runnable {
         g.setFont(new Font("Arial", 2, 56));
 
         if (gameOver) {
-            // g.drawString("Oops \n you out.", blockWidth * 2 - 100, blockHeight * 2);
-            g.drawString("Oops, ", blockWidth * 2 - 100, blockHeight * 2 -20);
-            g.drawString("you out.", blockWidth * 2 - 100, blockHeight * 2 + 50); // Assuming 30 pixels vertical distance between lines
+            
+            g.drawString("Oops, ", blockWidth * 2 - 100, blockHeight * 2 - 20);
+            g.drawString("you out.", blockWidth * 2 - 100, blockHeight * 2 + 50); // Assuming 30 pixels vertical
+                                                                                  // distance between lines
         }
 
         else {
-            g.drawString("Level:"+ level, blockWidth * 2 - 100 , blockHeight * 2);
-        }
-
-    }
-
-    public void start() {
-
-        // random generator and pattern list
-        random = new Random();
-
-        // to store sequence of flashed blocks
-        pattern = new ArrayList<Integer>();
-
-    }
-
-    @Override
-    public void run() {
-        
-
-        //continues until the gameOver flag is set to true
-        while (!gameOver) {
-            try {
-
-                //slight delay between iterations
-                Thread.sleep(30);
-
-                if(gameStarted){
-                ticks++;   //keeps track of the number of iterations or time intervals that have passed since the game started
-                // System.out.println(ticks);
-
-
-                // Reset flashed block and decrease darkness level every 20 ticks
-                if (ticks % 20 == 0) {
-                    flashed = 0;
-                    if (dark >= 0) {
-                        dark--;
-                    }
-                }
-
-                if (creatingPattern) {
-                    if (dark <= 0) {
-                        if (indexPattern >= pattern.size()) {
-                            flashed = random.nextInt(40) % 4 + 1;
-                            pattern.add(flashed);
-                            indexPattern = 0;
-                            creatingPattern = false;
-                        } else {
-                            flashed = pattern.get(indexPattern);
-                            indexPattern++;
-                        }
-                        dark = 2;
-                    }
-                } else if (indexPattern == pattern.size()) {
-                    creatingPattern = true;
-                    indexPattern = 0;
-                    dark = 2;
-                    level++;
-                }
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            g.drawString("Level:" + level, blockWidth * 2 - 100, blockHeight * 2);
         }
 
     }
@@ -185,40 +131,24 @@ public class Blocks implements Runnable {
         return startY;
     }
 
-    public boolean getcreatingPattern() {
-        return creatingPattern;
-    }
-
     public int getFlashed() {
         return flashed;
     }
 
-    public int getTicks() {
-        return ticks;
-    }
-
-    public int getDark() {
-        return dark;
-    }
-
-    public int getIndexPattern() {
-        return indexPattern;
+    public boolean getFlash() {
+        return flash;
     }
 
     public boolean getGameOver() {
         return gameOver;
     }
 
-    public boolean getgameStarted(){
-        return gameStarted;
-    }
-
-    public int getLevel(){
+    public int getLevel() {
         return level;
     }
 
-    public ArrayList<Integer> getPattern() {
-        return pattern;
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     // Setter methods
@@ -227,24 +157,12 @@ public class Blocks implements Runnable {
         this.flashed = flashed;
     }
 
-    public void setTicks(int ticks) {
-        this.ticks = ticks;
-    }
-
-    public void setDark(int dark) {
-        this.dark = dark;
-    }
-
-    public void setIndexPattern(int indexPattern) {
-        this.indexPattern = indexPattern;
-    }
-
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
     }
 
-    public void setgameStarted(boolean gameStarted){
-        this.gameStarted = gameStarted;
+    public void setFlash(boolean flash) {
+        this.flash = flash;
     }
 
 }
