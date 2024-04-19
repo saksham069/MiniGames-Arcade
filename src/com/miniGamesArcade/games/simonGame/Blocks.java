@@ -105,8 +105,7 @@ public class Blocks {
         if (gameOver) {
             
             g.drawString("Oops, ", blockWidth * 2 - 100, blockHeight * 2 - 20);
-            g.drawString("you out.", blockWidth * 2 - 100, blockHeight * 2 + 50); // Assuming 30 pixels vertical
-                                                                                  // distance between lines
+            g.drawString("you out.", blockWidth * 2 - 100, blockHeight * 2 + 50); 
         }
 
         else {
