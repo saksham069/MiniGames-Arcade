@@ -9,22 +9,23 @@ import java.awt.Toolkit;
 // Class representing the snake object in the Snake game
 public class SnakeObj {
     // Dimension object to get the screensize
-    private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); 
+    private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-    //number and size of blocks based on screensize
-    private int blockSize; 
-    private int noOfblocks; 
+    // number and size of blocks based on screensize
+    private int blockSize;
+    private int noOfblocks;
 
     // Array to store x and y-coordinate of each block
     private int[] x;
-    private int[] y; 
+    private int[] y;
 
     // Initial number of body parts
-    private int bodyParts; 
+    private int bodyParts;
 
     // Constructor
     SnakeObj() {
-        bodyParts=6;
+        bodyParts = 6;
+        blockSize = 30;
         noOfblocks = (int) (screenSize.getWidth() * screenSize.getHeight()) / (blockSize * blockSize);
         x = new int[noOfblocks];
         y = new int[noOfblocks];
@@ -34,11 +35,11 @@ public class SnakeObj {
     public void draw(Graphics2D g2d) {
         for (int i = 0; i < bodyParts; i++) {
             if (i == 0) {
-                g2d.setColor(Color.green); 
+                g2d.setColor(Color.green);
                 g2d.fillRect(x[i], y[i], blockSize, blockSize);
             } else {
-                g2d.setColor(new Color(45, 180, 0)); 
-                g2d.fillOval(x[i], y[i], blockSize, blockSize); 
+                g2d.setColor(new Color(45, 180, 0));
+                g2d.fillOval(x[i], y[i], blockSize, blockSize);
             }
         }
     }
@@ -68,7 +69,8 @@ public class SnakeObj {
         }
     }
 
-    // Method to get the rectangle representing the snake's head for collision detection
+    // Method to get the rectangle representing the snake's head for collision
+    // detection
     Rectangle getRectHead() {
         return new Rectangle(x[0], y[0], blockSize, blockSize);
     }
@@ -79,10 +81,10 @@ public class SnakeObj {
         // Check if head collides with any body part
         for (int i = bodyParts; i > 1; i--) {
             if ((x[0] == x[i]) && (y[0] == y[i])) {
-                return false; 
+                return false;
             }
         }
-        return true; 
+        return true;
     }
 
     // Methods to change the direction of the snake's movement
@@ -107,7 +109,7 @@ public class SnakeObj {
         bodyParts += 1;
     }
 
-    // Method to check for collisions with the borders of the screen 
+    // Method to check for collisions with the borders of the screen
     public void checkBorderCollisions() {
         if (x[0] < 0) {
             x[0] = (int) screenSize.getWidth();

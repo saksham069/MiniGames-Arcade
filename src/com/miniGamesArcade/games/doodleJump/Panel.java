@@ -49,6 +49,7 @@ class Panel extends JPanel {
     // Declaring the game thread
     private Thread gameThread;
 
+    // synchronize block lock
     private final Object blocksLock = new Object();
 
     // Declaring the collision thread
@@ -64,6 +65,7 @@ class Panel extends JPanel {
     // constructor
     Panel() {
         gameOver = false;
+
         // PAUSE MENU
         paused = new boolean[] { false };
         parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -85,14 +87,14 @@ class Panel extends JPanel {
         random = new Random();
         bY = screenHeight / 2 + 100;
         blocks = new ArrayDeque<>();
-        Block.initCount(); 
+        Block.initCount();
         blocks.add(new Block(screenWidth / 2 - 100 / 2, bY));
         for (int i = 0; i < 100; i++) {
             addNewBlock();
         }
-        this.setBackground(Color.BLACK); 
+        this.setBackground(Color.BLACK);
 
-        // collisonThread Loop
+        // collison detection loop thread
         checkCollisionsThread = new Thread(() -> {
             while (true) {
                 try {
@@ -102,6 +104,8 @@ class Panel extends JPanel {
                 }
                 if (paused[0])
                     continue;
+
+                // synchronized block for iterating over blocks queue
                 synchronized (blocksLock) {
                     blocks.forEach((b) -> {
                         if (b.collider.intersects(player.collider) && ySpeed >= 0) {
@@ -124,7 +128,7 @@ class Panel extends JPanel {
             }
         });
 
-        // gameloop
+        // main game loop thread
         gameThread = new Thread(() -> {
             while (true) {
                 try {
@@ -140,6 +144,8 @@ class Panel extends JPanel {
                 }
                 ySpeed += gravity;
                 scoreCounter -= (int) ySpeed;
+
+                // synchronized block for iterating over blocks queue
                 synchronized (blocksLock) {
                     blocks.forEach((b) -> {
                         b.setY -= ySpeed;
@@ -158,7 +164,7 @@ class Panel extends JPanel {
             }
         });
 
-        // Implementing keyListener using anonymous class
+        // key event listener
         addKeyListener(new KeyListener() {
 
             @Override
@@ -219,6 +225,8 @@ class Panel extends JPanel {
         super.paintComponent(g);
 
         player.setPos(pX, pY, pWidth, pHeight);
+
+        // synchronized block for iterating over blocks queue
         synchronized (blocksLock) {
             blocks.forEach((b) -> {
                 b.collider.setFrame(b.collider.getX(), b.setY, b.collider.getWidth(), b.collider.getHeight());
@@ -250,13 +258,14 @@ class Panel extends JPanel {
         }
     }
 
-    // Method to check the score
+    // Method to set score for player
     void checkScore() {
         if (scoreCounter > score)
             score = scoreCounter - scoreCounter % 100;
     }
 
-    // Method to add new block
+    // Method to add new blocks with a random x coordinate as the player progresses
+    // in the game
     void addNewBlock() {
         blocks.add(new Block(random.nextInt(2 * 200 + 1 - Block.getWidth()) + screenWidth / 2 - 200,
                 bY - Block.getCount() * 100));
