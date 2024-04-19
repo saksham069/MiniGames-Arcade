@@ -44,8 +44,10 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
     private final boolean[] paused;
     private final JFrame parentFrame;
     private MenuOverlay overlay;
+    private boolean gameOver;
 
     Panel() {
+        gameOver = false;
         // PAUSE MENU
         paused = new boolean[] { false };
         parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -114,13 +116,17 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
                 }
                 if (paused[0])
                     continue;
+                if (blocks.getFirst().collider.getY() < 0) {
+                    paused[0] = true;
+                    gameOver = true;
+                }
                 ySpeed += gravity;
                 scoreCounter -= (int) ySpeed;
                 synchronized (blocksLock) {
                     blocks.forEach((b) -> {
                         b.setY -= ySpeed;
                     });
-                    checkScore(); 
+                    checkScore();
                     if (score != pastScore && score > 200) {
                         pastScore = score;
                         addNewBlock();
@@ -201,7 +207,8 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.YELLOW);
-        g2d.fill(player.frame);
+        if (!gameOver)
+            g2d.fill(player.frame);
         g2d.setColor(Color.RED);
         synchronized (blocksLock) {
             blocks.forEach((b) -> {
@@ -216,6 +223,11 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
         g2d.setFont(new Font("Arial", Font.BOLD, 18));
         String scoreString = "Score: " + score;
         g2d.drawString(scoreString, (int) screenWidth / 2 - g2d.getFontMetrics().stringWidth(scoreString) / 2, 30);
+        if (gameOver) {
+            g2d.setFont(new Font("Arial", Font.BOLD, 30));
+            g2d.drawString("GAME OVER", (int) screenWidth / 2 - g2d.getFontMetrics().stringWidth(scoreString) / 2,
+                    (int) screenHeight / 2 - 15);
+        }
     }
 
     void checkScore() {
