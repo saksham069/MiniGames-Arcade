@@ -183,7 +183,7 @@ public class Panel extends JPanel {
 
     public void run() {
 
-        // runs until the game is over 
+        // runs in aseparate thread until the game is over 
         while (!block.getGameOver()) {
             try {
                 Thread.sleep(30);
@@ -197,32 +197,56 @@ public class Panel extends JPanel {
                 
 
                 // Reset flashed block and decrease darkness level every 20 ticks
+                // ensures that the flashed block remains visible for a certain duration before resetting
                 if (ticks % 20 == 0) {
                     block.setFlashed(0);
                     if (dark >= 0) {
                         dark--;
                     }
                 }
+                /*The dark variable is used to control the duration 
+                for which the flashed block remains visible. */
+                
 
-                if (creatingPattern) {
-                    if (dark <= 0) {
-                        if (indexPattern >= pattern.size()) {
+                // checks if the game is currently in the process of creating a new pattern of flashed blocks
+                if (creatingPattern)
+                 {
+                    if (dark <= 0) //if the block done flashing
+                     {
+
+                    /* If the index indicating the current position within the pattern is equal to or exceeds the 
+                    size of the pattern list, it means that the current pattern has been completed. 
+                    In this case, a new block is randomly selected, flashed, and added to the pattern list*/
+                        if (indexPattern >= pattern.size()) 
+                        {
                             block.setFlashed(random.nextInt(40) % 4 + 1);
                             pattern.add(block.getFlashed());
                             indexPattern = 0;
                             creatingPattern = false;
-                        } else {
+                        } 
+
+                        /*If the current pattern has not been completed, the next block in the pattern is flashed*/
+                        else 
+                        {
                             block.setFlashed(pattern.get(indexPattern));
                             indexPattern++;
                         }
-                        dark = 2;
+                        dark = 2; // reset darkness to ensure that the block remains flashed for a duration
                     }
-                } else if (indexPattern == pattern.size()) {
-                    creatingPattern = true;
-                    indexPattern = 0;
+
+                    
+                } 
+
+                /*checks whether the clicked block matches the current pattern element  */
+                
+                else if (indexPattern == pattern.size()) // if player guessed right the whole pattern
+                
+                {
+                    creatingPattern = true;  //game is now in the process of creating a new pattern
+                    indexPattern = 0; //resets, since now the player start guessing new pattern
                     dark = 2;
-                    block.setFlash(true);
-                    block.setLevel(block.getLevel() + 1);
+                    block.setFlash(true); // black box will turn to cyan to indicate 1 level is completed 
+                    block.setLevel(block.getLevel() + 1); // increments the level 
                 }
             }
         }
