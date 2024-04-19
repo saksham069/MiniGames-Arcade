@@ -19,13 +19,18 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-class Panel extends JPanel { // make final width and hieght etc args in block and player and make static
-                             // getters for them // set min and max constraints for walls
+// Panel class representing the game panel where the DoodleJump game is played
+class Panel extends JPanel {
+
+    // variables for screenSize
     private final Dimension screenSize;
     private final double screenHeight, screenWidth;
+
+    // Declaring objects
     private Player player;
     private Deque<Block> blocks; // deque for blocks
     private final Random random;
+
     private final double xSpeed = 10;
     private double ySpeed = 0;
     private final double jumpSpeed = -10;
@@ -35,17 +40,28 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
     private final double pY, pWidth, pHeight;
     private double pX;
     private final double bY;
+
+    // variables for score
     private int score;
     private int pastScore;
     private int scoreCounter;
+
+    // Declaring the game thread
     private Thread gameThread;
+
     private final Object blocksLock = new Object();
+
+    // Declaring the collision thread
     private Thread checkCollisionsThread;
+
+    // Declaring variables for pause menu
     private final boolean[] paused;
     private final JFrame parentFrame;
     private MenuOverlay overlay;
+
     private boolean gameOver;
 
+    // constructor
     Panel() {
         gameOver = false;
         // PAUSE MENU
@@ -69,13 +85,14 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
         random = new Random();
         bY = screenHeight / 2 + 100;
         blocks = new ArrayDeque<>();
-        Block.initCount(); // initialise block or score counter
+        Block.initCount(); 
         blocks.add(new Block(screenWidth / 2 - 100 / 2, bY));
         for (int i = 0; i < 100; i++) {
             addNewBlock();
         }
-        this.setBackground(Color.BLACK); // cpu utilization fix ***
+        this.setBackground(Color.BLACK); 
 
+        // collisonThread Loop
         checkCollisionsThread = new Thread(() -> {
             while (true) {
                 try {
@@ -107,6 +124,7 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
             }
         });
 
+        // gameloop
         gameThread = new Thread(() -> {
             while (true) {
                 try {
@@ -140,6 +158,7 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
             }
         });
 
+        // Implementing keyListener using anonymous class
         addKeyListener(new KeyListener() {
 
             @Override
@@ -195,6 +214,7 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
         });
     }
 
+    // Render method to draw game objects
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -202,7 +222,7 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
         synchronized (blocksLock) {
             blocks.forEach((b) -> {
                 b.collider.setFrame(b.collider.getX(), b.setY, b.collider.getWidth(), b.collider.getHeight());
-            }); // yaha place kiya hai to move at a constant predefined rate
+            });
         }
 
         Graphics2D g2d = (Graphics2D) g;
@@ -230,11 +250,13 @@ class Panel extends JPanel { // make final width and hieght etc args in block an
         }
     }
 
+    // Method to check the score
     void checkScore() {
         if (scoreCounter > score)
             score = scoreCounter - scoreCounter % 100;
     }
 
+    // Method to add new block
     void addNewBlock() {
         blocks.add(new Block(random.nextInt(2 * 200 + 1 - Block.getWidth()) + screenWidth / 2 - 200,
                 bY - Block.getCount() * 100));
