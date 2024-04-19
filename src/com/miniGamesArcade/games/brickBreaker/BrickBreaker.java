@@ -7,7 +7,7 @@ import com.miniGamesArcade.games.Game;
 // BrickBreaker class representing the BrickBreaker game, extending the Game class
 public class BrickBreaker extends Game {
 
-    // Method to start playing the Snake game
+    // Method to start playing the brickBreaker game
     public void play() {
 
         // Create a new Panel for the game
