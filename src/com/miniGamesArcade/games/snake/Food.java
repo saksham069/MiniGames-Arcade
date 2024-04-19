@@ -7,38 +7,47 @@ import java.awt.Toolkit;
 import java.util.Random;
 import java.awt.Rectangle;
 
+// Class representing the food object in the Snake game
 public class Food {
-    private int foodSize=30;
+
+    // Declaring food instance variables
+    private int foodSize; 
+    private int foodX; 
+    private int foodY; 
+
+    // Declaring random object for generating random positions
     private Random random;
-    private int foodX;
-    private int foodY;
-    
+
+    // Dimension object to get the screen size
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-    Food(){
-        random= new Random();
-        foodX=random.nextInt((int)screenSize.getWidth()/foodSize)*foodSize;
-        foodY=random.nextInt((int)screenSize.getHeight()/foodSize)*foodSize;
+    // Constructor to initialize the food object
+    Food() {
+        // Initializing random object
+        random = new Random();
 
+        // Initializing food size
+        foodSize = 30;
+
+        // Generating random initial position for food
+        foodX = random.nextInt((int) screenSize.getWidth() / foodSize) * foodSize;
+        foodY = random.nextInt((int) screenSize.getHeight() / foodSize) * foodSize;
     }
 
-    public void draw(Graphics2D g2d){
-        
-        g2d.setColor(Color.RED);
-       
-        g2d.fillRect(foodX,foodY , foodSize, foodSize);
+    // Method to render the food on the screen
+    public void draw(Graphics2D g2d) {
+        g2d.setColor(Color.RED); 
+        g2d.fillRect(foodX, foodY, foodSize, foodSize); 
     }
 
+    // Method to get a rectangle representing the food for collision detection
     public Rectangle getRect() {
-        return new Rectangle(foodX,foodY , foodSize, foodSize);
+        return new Rectangle(foodX, foodY, foodSize, foodSize); 
     }
 
-    public void foodReSpawn(){
-        foodX=random.nextInt((int)screenSize.getWidth()/foodSize)*foodSize;
-        foodY=random.nextInt((int)screenSize.getHeight()/foodSize)*foodSize;
+    // Method to respawn food at a random location on the screen
+    public void foodReSpawn() {
+        foodX = random.nextInt((int) screenSize.getWidth() / foodSize) * foodSize;
+        foodY = random.nextInt((int) screenSize.getHeight() / foodSize) * foodSize;
     }
 }
-
-
-//change colors and try to make the array oval
-//set screenside collisions 
