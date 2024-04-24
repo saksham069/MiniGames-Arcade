@@ -51,7 +51,6 @@ class Panel extends JPanel {
     Panel() {
 
         // initialize board dimensions
-        boardWidth = 1600;
         boardHeight = 850;
 
         // game state variables
