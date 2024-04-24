@@ -26,7 +26,6 @@ class Panel extends JPanel {
     private Image bottomPipeImg;
 
     // game board dimensions
-    private int boardWidth;
     private int boardHeight;
 
     // Bird class object
