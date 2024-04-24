@@ -1,88 +1,94 @@
 package com.miniGamesArcade.games.flappyBird;
 
-import java.awt.Image;
+import java.awt.*;
 
 public class Pipe {
-    private int x;
-    private int y;
-    private int width;
-    private int height;
-    private Image img;
+    private int xPipe;
+    private int yPipe;
+    private int widthPipe;
+
+    private int heightPipe;
+    private Image topPipeImg;
+    private Image bottomPipeImg;
+    // game board dimensions
+    private int boardWidth;
+    private int boardHeight;
     private boolean passed; // Flag indicating if the bird has passed through the pipe opening
 
-    public Pipe(Image img) {
-        this.img = img;
+    Pipe(Image topPipeImg, Image bottomPipeImg) {
+        this.topPipeImg = topPipeImg;
+        this.bottomPipeImg = bottomPipeImg;
+
+        // initialize board dimensions
+        boardWidth = 1600;
+        boardHeight = 850;
+        xPipe = boardWidth;
+        yPipe = 0;
+        widthPipe = 64;
+        heightPipe = 512;
     }
 
     // Method to place pipes
-    public void pipesPlaced(int xPipe, int yPipe, int widthPipe, int heightPipe, int boardHeight, Image topPipeImg,
-            Image bottomPipeImg) {
+    public void pipesPlaced() {
 
-        //// Calculate a random Y-coordinate for the top pipe's position within the
-        //// visible area of the screen
+        // Calculate a random Y-coordinate for the top pipe's position within the
+        // visible area of the screen
         int randomPipeY = (int) (yPipe - heightPipe / 4 - Math.random() * (heightPipe / 2));
         int openingSpace = boardHeight / 4; // space between top and bottom pipe
 
-        // Top pipe
-        x = xPipe;
-        y = randomPipeY;
-        width = widthPipe;
-        height = heightPipe;
-        passed = false;
-        img = topPipeImg;
+        Pipe topPipe = new Pipe(topPipeImg, null);
+        topPipe.xPipe = boardWidth;
+        topPipe.yPipe = randomPipeY;
 
-        // Bottom pipe
-        Pipe bottomPipe = new Pipe(bottomPipeImg);
-        bottomPipe.setX(xPipe);
-        bottomPipe.setY(y + height + openingSpace); // Set Y-coordinate below the top pipe and the opening space
-        bottomPipe.setWidth(widthPipe);
-        bottomPipe.setHeight(heightPipe);
-        bottomPipe.setPassed(false);
+        Panel.pipes.add(topPipe);
 
-        // Add both top and bottom pipes to the list of pipes
-        Panel.pipes.add(this); // Add top pipe
-        Panel.pipes.add(bottomPipe); // Add bottom pipe
+        Pipe bottomPipe = new Pipe(bottomPipeImg, null);
+        bottomPipe.xPipe = boardWidth;
+        bottomPipe.yPipe = topPipe.yPipe + heightPipe + openingSpace;
+
+        Panel.pipes.add(bottomPipe);
+
+    }
+
+    public void draw(Graphics2D g2d) {
+        // Draw top pipe
+        g2d.drawImage(topPipeImg, xPipe, yPipe, widthPipe, heightPipe, null);
+
+        // Draw bottom pipe
+        g2d.drawImage(bottomPipeImg, xPipe, yPipe + heightPipe + 200, widthPipe, heightPipe, null);
     }
 
     // Getters and setters for private fields
-    public int getX() {
-        return x;
+    public int getxPipe() {
+        return xPipe;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setxPipe(int xPipe) {
+        this.xPipe = xPipe;
     }
 
-    public int getY() {
-        return y;
+    public int getyPipe() {
+        return yPipe;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setyPipe(int yPipe) {
+        this.yPipe = yPipe;
     }
 
-    public int getWidth() {
-        return width;
+    public int getwidthPipe() {
+        return widthPipe;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
+    public void setWidth(int widthPipe) {
+        this.widthPipe = widthPipe;
     }
 
-    public int getHeight() {
-        return height;
+    public int getheightPipe() {
+        return heightPipe;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public Image getImg() {
-        return img;
-    }
-
-    public void setImg(Image img) {
-        this.img = img;
+    public void setheightPiope(int heightPipe) {
+        this.heightPipe = heightPipe;
     }
 
     public boolean isPassed() {
@@ -91,5 +97,13 @@ public class Pipe {
 
     public void setPassed(boolean passed) {
         this.passed = passed;
+    }
+
+    public void setBottomPipeImg(Image bottomPipeImg) {
+        this.bottomPipeImg = bottomPipeImg;
+    }
+
+    public void setTopPipeImg(Image topPipImg) {
+        this.topPipeImg = topPipImg;
     }
 }

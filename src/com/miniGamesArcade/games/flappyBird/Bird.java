@@ -19,7 +19,7 @@ class Bird {
     private int gravity;
     
 
-    Image img;
+    // Image img;
 
     /*
       Constructs a new Bird object.
