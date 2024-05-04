@@ -16,7 +16,7 @@
 ![image](https://github.com/saksham069/MiniGames-Arcade/assets/91340854/71a841c1-59dd-414c-bb2d-f575f8b64494)
 
 ## Simon Game
-![image](https://github.com/saksham069/MiniGames-Arcade/assets/91340854/56b33d9f-e2b8-4590-9cd4-8be61f275dc2)
+![image](https://github.com/saksham069/MiniGames-Arcade/assets/91340854/4f91d2f3-75d4-4880-9baa-392e5b3a64e0)
 
 ## Pause Menu
 ![image](https://github.com/saksham069/MiniGames-Arcade/assets/91340854/6543988f-a667-4f7d-ad32-402eb57340ed)
